@@ -31,7 +31,7 @@ return <div><form onSubmit={loadcontact}>
 }
 
 
-const arr = ["uche okoroafor","chigo okoroafor","chima okoroafor"];
+const arr = ["James Smith", "Thomas Anderson", "Bruce Wayne"];
 
 ReactDOM.render( <Counter data={arr}/> 
 ,document.getElementById("root")
