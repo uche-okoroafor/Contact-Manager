@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.css';
-
-function Counter(props){
-const [arr,setarr] = useState("");
-const [outside,setoutside]=useState('');
-const [load,setload]=useState(props.data);
+import  Button  from './form';
+import List from './list';
 
 
-function updatec(e){
-setarr(e.target.value);
+
+
+const initialState ={
+contacts: ["James Smith", "Thomas Anderson", "Bruce Wayne"] 
+};
+
+function reducer(state=initialState,action){
+
+switch(action.type){
+case "ADD_PERSON":
+return {
+...state,contacts:[...state.contacts,action.data]}
+default:
+return state;
+
 }
 
-
-
-function loadcontact(e){
-setload([...load,arr]);
-setoutside(props.data.map((list,index)=><li key={index}>{list}</li>))
-setarr('');
-e.preventDefault();
 }
 
+const store = createStore(reducer);
 
-return <div><form onSubmit={loadcontact}>
-<input type="text" value={arr} onChange={updatec}/>
-<input type="submit" value="Submit"/>
-<p>{outside}{load}</p>
-</form>
-</div>
-}
-
-
-const arr = ["James Smith", "Thomas Anderson", "Bruce Wayne"];
-
-ReactDOM.render( <Counter data={arr}/> 
+ReactDOM.render(
+<Provider store={store}>
+<Button></Button>
+<List/>
+</Provider> 
 ,document.getElementById("root")
 )
