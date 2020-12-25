@@ -1,4 +1,6 @@
-import React from 'react';
+import React  from 'react';
+import { connect } from 'react-redux'
+import { addPerson } from './index'
 
 
 
@@ -6,20 +8,33 @@ class Button extends React.Component {
 constructor(props){
 super(props);
  this.state = { 
-person:''
+persons:'',
+numbers:'',
+address:''
 }
 }
 
-
-
-handleChange=(e)=>{
-this.setState({person:e.target.value});
+handleNameChange=(e)=>{
+this.setState({persons:e.target.value});
 }
+
+handleNumberChange=(e)=>{
+
+this.setState({numbers:e.target.value});
+}
+
+handleAddressChange=(e)=>{
+this.setState({address:e.target.value});
+}
+
+
 
 upDatelist=(e)=>{
-if(this.state.person!==""){
-this.props.data(this.state.person);
-this.setState({person:""});
+if(this.state.persons!==""&&this.state.numbers!==''){
+this.props.addPerson(this.state.persons,this.state.numbers,this.state.address);
+this.setState({persons:""});
+this.setState({numbers:""});
+this.setState({address:""});
 }
 e.preventDefault();
 
@@ -34,11 +49,16 @@ e.preventDefault();
    
     render() { 
 
+console.log(this.state.persons);
+
         return (
 <React.Fragment>
 <form onSubmit={this.upDatelist}>
-<input type='text' className='m-5' value={this.state.person} onChange={this.handleChange}  placeholder="Add new contact"/>
-<button   className="btn btn-primary m-2 " type="submit">Submit</button>
+<input type='text' className='m-3' value={this.state.persons} onChange={this.handleNameChange}  placeholder="Add contact Name"/>
+<input type="number"   className='m-2' value={this.state.numbers} onChange={this.handleNumberChange}  placeholder="Add contact Number"/>
+<input type="text"   className='m-2' value={this.state.address} onChange={this.handleAddressChange}  placeholder="Add contact Address"/>
+
+<button   className="btn btn-primary m-2 "  type="submit">Add</button>
 
 </form>
 
@@ -46,5 +66,12 @@ e.preventDefault();
   );
     }
 }
- 
-export default Button;
+
+const mapDipatchToProps={
+addPerson
+}
+
+
+
+export default connect(null,mapDipatchToProps)(Button) ;
+
