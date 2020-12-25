@@ -10,15 +10,32 @@ import List from './list';
 
 
 const initialState ={
-contacts: ["James Smith", "Thomas Anderson", "Bruce Wayne"] 
+persons: ["James Smith", "Thomas Anderson", "Bruce Wayne"],
+numbers:['2233555','55556666','455555566'],
+address: ['no1','no2','no3']
 };
 
-function reducer(state=initialState,action){
+
+
+export function addPerson(persons,numbers,address){
+return{
+type:"ADD_PERSON",
+data:persons,
+info:numbers,
+file:address
+}
+}
+
+function reducer(state= initialState,action){
 
 switch(action.type){
 case "ADD_PERSON":
 return {
-...state,contacts:[...state.contacts,action.data]}
+...state,contacts:[...state.persons,action.data],
+...state,numbers:[...state.numbers,action.info],
+...state,address:[...state.address,action.file]
+
+}
 default:
 return state;
 
