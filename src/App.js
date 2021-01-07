@@ -1,196 +1,289 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as contactAction from './actions/contactAction';
-import Form from './components/form';
-
-
-
-
-
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as contactAction from "./actions/contactAction";
+import Form from "./components/form";
+import "./App.css";
+import SearchBar from './components/Search'
 
 class App extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
-   this.handleNickNameChange = this.handleNickNameChange.bind(this);
+    this.handleNickNameChange = this.handleNickNameChange.bind(this);
     this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-     name: '',
-      nickName:'',
-      mobileNumber:'',
-      address:'',
-      display:{color:'red',display:'none'},
-      outline:{},
-      listStyle:{hover:{background:'green'}},
-
-
- displayList:{color:'red',display:'none'},
-
+      name: "",
+      nickName: "",
+      mobileNumber: "",
+      address: "",
+      display: { color: "red", display: "none" },
+      outline: {},
+      displayList: { color: "red", display: "none" },
+      displayForm: { display: "block" },
+      displayEditBtn:{display:"none"},
+      displayAddBtn:{display:"block"},
+      targetContact: this.props.contacts,
+      id: 4,
+      index:'',
+    };
   }
-  }
- handleNameChange(e){
+  handleNameChange(e) {
     this.setState({
-      name: e.target.value
-    })
- }
+      name: e.target.value,
+    });
+  }
 
-
- handleNickNameChange(e){
+  handleNickNameChange(e) {
     this.setState({
-      nickName: e.target.value
-    })
+      nickName: e.target.value,
+    });
   }
 
- handleMobileNumberChange(e){
+  handleMobileNumberChange(e) {
     this.setState({
-      mobileNumber: e.target.value
-    })
+      mobileNumber: e.target.value,
+    });
   }
 
- handleAddressChange(e){
+  handleAddressChange(e) {
     this.setState({
-      address: e.target.value
-    })
+      address: e.target.value,
+    });
   }
 
-  handleSubmit(e){
-if(this.state.name !== ''&& this.state.mobileNumber !== ''){
+  handleSubmit(e) {
+    if (this.state.name !== "" && this.state.mobileNumber !== "") {
+      e.preventDefault();
+      let name = { name: this.state.name };
 
-    e.preventDefault();
-let name = { name: this.state.name }
+      let nickName = { nickName: this.state.nickName };
 
-let nickName = {nickName: this.state.nickName}
+      let mobileNumber = { mobileNumber: this.state.mobileNumber };
 
-let mobileNumber = { mobileNumber: this.state.mobileNumber}
+      let address = { address: this.state.address };
+      let id = { id: this.state.id };
+      this.props.createContact(name, nickName, mobileNumber, address, id);
 
-let address = {address: this.state.address}
-this.props.createContact(name,nickName,mobileNumber,address);
+      this.setState({ name: "" });
 
-this.setState({name:''});
+      this.setState({ nickName: "" });
 
-this.setState({ nickName:''});
-     
-this.setState({ mobileNumber: '' });
+      this.setState({ mobileNumber: "" });
 
-this.setState({ address:'' });
+      this.setState({ address: "" });
+      this.setState({ id: this.state.id + 1 });
 
+      this.setState({
+        display: { color: "red", display: "none", fontSize: "14px" },
+      });
+      this.setState({ outline: {} });
+    } else {
+      this.setState({
+        display: { color: "red", display: "inline", fontSize: "14px" },
+      });
+      this.setState({ outline: { border: "1px solid red" } });
 
-this.setState({display:{color:'red',display:'none', fontSize:'14px'}});
-this.setState({outline:{}});
-
+      e.preventDefault();
+    }
   }
-else{
-this.setState({display:{color:'red',display:'inline', fontSize:'14px'}});
-this.setState({outline:{border:'1px solid red'}});
 
-e.preventDefault();
-
-}
-
-  }
-
-  listView(data, index){
+  listView(data, index) {
     return (
       <div className="row" style={this.state.displayList}>
         <div className="col-md-10">
           <li key={index} className="list-group-item clearfix">
-            {data.name}
+            Name: {data.name}
           </li>
-     
         </div>
         <div className="col-md-10">
           <li key={index} className="list-group-item clearfix">
-            {data.nickName}
+            NickName: {data.nickName}
           </li>
         </div>
-  <div className="col-md-10">
+        <div className="col-md-10">
           <li key={index} className="list-group-item clearfix">
-            {data.mobileNumber}
+            MobileNumber: {data.mobileNumber}
           </li>
         </div>
-  <div className="col-md-10">
+        <div className="col-md-10">
           <li key={index} className="list-group-item clearfix">
-            {data.address}
+            Address: {data.address}
           </li>
         </div>
-        <div className="col-md-2">
-          <button onClick={(e) => this.deleteContact(e, index)} className="btn btn-danger">
-            Remove
+      
+          <button
+            onClick={(e) =>  this.deleteContact(e,index) }
+            className="btn btn-danger m-2 col-md-10 "
+          >
+            Delete Contact
           </button>
-        </div>
-    </div> 
-    )
+      
+
+             <button
+          className="btn bg-success  col-md-10 m-2"
+          onClick={(e) => this.editContact(e,index)}
+        >
+          Edit Contact
+        </button>
+
+      </div>
+    );
   }
 
-  deleteContact(e, index){
+  deleteContact(e, index) {
     e.preventDefault();
     this.props.deleteContact(index);
+if(this.props.contacts.length === 0){
+this.toggledisplay() }else{
+setTimeout(() => {this.expandContact(this.props.contacts.length-1)
+  },10);}
   }
 
+  expandContact = (id,) => {
 
- expandContact=(i)=>{
-this.setState({displayList:{display:'block'}})
+    const filtered = this.props.contacts.filter((data, i) => i === id);
+    this.setState({ targetContact: filtered });
+    this.setState({ displayList: { display: "block" } });
+    this.setState({ displayForm: { display: "none" } });
+     this.setState({index:id});
+  };
 
+  allcontact(data, index) {
+
+    return (
+      <div className="col-md-10">
+        <li
+          key={index}
+          className="list-group-item clearfix  displaylist"
+          onClick={(e) => this.expandContact(index, e)}
+        >
+          {data.name}
+        </li>
+      </div>
+    );
+  }
+
+  toggledisplay = () => {
+    let i = 1;
+    if (i % 2 === 0) {
+      this.setState({ displayList: { display: "block" } });
+      this.setState({ displayForm: { display: "none" } });
+      i++;
+    } else {
+      this.setState({ displayList: { display: "none" } });
+      this.setState({ displayForm: { display: "block" } });
+      i++;
+    }
+  };
+
+
+editContact=(e,i)=>{
+e.preventDefault();
+this.toggledisplay();
+this.setState({name:this.state.targetContact[0].name});
+this.setState({nickName:this.state.targetContact[0].nickName});
+this.setState({mobileNumber:this.state.targetContact[0].mobileNumber});
+this.setState({address:this.state.targetContact[0].address});
+  this.setState({ displayAddBtn: { display: "none" } });
+  this.setState({ displayEditBtn: { display: "block" } });
 
 }
 
-allcontact(data, index){
-return  <div className="col-md-10">
-          <li key={index} className="list-group-item clearfix" style={this.state.listStyle} onClick={()=>this.expandContact(index)}>
-            {data.name}
-          </li>
-        </div>
+submitEdit=(e, i)=>{
+this.deleteContact(e, this.state.index);
+this.handleSubmit(e);
+
+  this.setState({ displayAddBtn: { display: "block" } });
+  this.setState({ displayEditBtn: { display: "none" } });
+setTimeout(() => {this.expandContact(this.props.contacts.length-1)
+  },100);
 }
 
+cancelEdit=(e)=>{
+
+      this.setState({ name: "" });
+
+      this.setState({ nickName: "" });
+
+      this.setState({ mobileNumber: "" });
+
+      this.setState({ address: "" });
+   this.expandContact(this.state.index)
+}
 
   render() {
 
-    return(
+    return (
       <div className="container">
         <h1 className="text-center bg-warning">Contacts Manager</h1>
         <hr />
-<div className="col-md-2">
-
-<ul>
-{this.props.contacts.map((contact, i) => this.allcontact(contact, i))}
-
-</ul>
-
-</div>
+        <div className="col-md-5">
+<SearchBar  contacts={this.props.contacts}/>
+          <ul>
+            {this.props.contacts.map((contact,i) =>
+              this.allcontact(contact,i)
+            )}
+          </ul>
+        </div>
 
         <div className="col-md-10">
-          <h3>Add Contact Form</h3>
-        <Form  handleAddressChange={this.handleAddressChange}  handleSubmit={this.handleSubmit} handleNameChange={this.handleNameChange} handleMobileNumberChange={this.handleMobileNumberChange} handleNickNameChange={this.handleNickNameChange}  
-         display={this.state.display} outline={this.state.outline}
-       name={this.state.name} nickName={this.state.nickName} mobileNumber={this.state.mobileNumber} address={this.state.address}
-
-                 />
+          <Form
+            handleAddressChange={this.handleAddressChange}
+            handleSubmit={this.handleSubmit}
+            handleNameChange={this.handleNameChange}
+            handleMobileNumberChange={this.handleMobileNumberChange}
+            handleNickNameChange={this.handleNickNameChange}
+            display={this.state.display}
+            outline={this.state.outline}
+            displayForm={this.state.displayForm}
+            name={this.state.name}
+            nickName={this.state.nickName}
+            mobileNumber={this.state.mobileNumber}
+            address={this.state.address}
+            displayEditBtn={this.state.displayEditBtn}
+            displayAddBtn={this.state.displayAddBtn}
+            submitEdit={this.submitEdit}
+            cancelEdit={this.cancelEdit}
+          />
           <hr />
-        { <ul className="list-group">
-          {this.props.contacts.map((contact, i) => this.listView(contact, i))}
-        </ul> }
+          {
+            <ul className="list-group">
+              {this.state.targetContact.map((contact,i) =>
+                this.listView(contact,this.state.index)
+              )}
+            </ul>
+          }
         </div>
+
+        <button
+          className="btn bg-success  col-md-10 m-2"
+          style={this.state.displayList}
+          onClick={this.toggledisplay}
+        >
+          Create New Contact
+        </button>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    contacts: state.contacts
-  }
+    contacts: state.contacts,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createContact: (nickName,name,mobileNumber,address) => dispatch(contactAction.createContact(nickName,name,mobileNumber,address)),
- 
-    deleteContact: index =>dispatch(contactAction.deleteContact(index))
-  }
+    createContact: (nickName, name, mobileNumber, address, id) =>
+      dispatch(
+        contactAction.createContact(nickName, name, mobileNumber, address, id)
+      ),
+
+    deleteContact: (index) => dispatch(contactAction.deleteContact(index)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
