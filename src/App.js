@@ -29,30 +29,13 @@ class App extends Component {
     };
   }
 
-  handleNameChange(e) {
+ handleChange(e) {
+    const { name, value } = e.target;
     this.setState({
-      name: e.target.value,
+      [name]: value,
     });
   }
-
-  handleNickNameChange(e) {
-    this.setState({
-      nickName: e.target.value,
-    });
-  }
-
-  handleMobileNumberChange(e) {
-    this.setState({
-      mobileNumber: e.target.value,
-    });
-  }
-
-  handleAddressChange(e) {
-    this.setState({
-      address: e.target.value,
-    });
-  }
-
+  
   handleSubmit(e) {
     if (this.state.name !== "" && this.state.mobileNumber !== "") {
       e.preventDefault();
