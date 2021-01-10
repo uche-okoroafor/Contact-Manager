@@ -138,16 +138,50 @@ setTimeout(() => {this.expandContact(this.props.contacts.length-1)
     );
   }
 
-  toggledisplay = () => {
-    let i = 1;
-    if (i % 2 === 0) {
-      this.setState({ displayList: { display: "block" } });
-      this.setState({ displayForm: { display: "none" } });
-      i++;
-    } else {
-      this.setState({ displayList: { display: "none" } });
-      this.setState({ displayForm: { display: "block" } });
-      i++;
+ toggleDisplay = (action) => {
+    switch (action) {
+      case "displayList":
+        this.setState({ displayList: { display: "block" } });
+        this.setState({ displayForm: { display: "none" } });
+        this.setState({ displaySearchReturn: { display: "none" } });
+        break;
+      case "displayForm":
+        this.setState({ displayList: { display: "none" } });
+        this.setState({ displayForm: { display: "block" } });
+        break;
+
+      case "searchdisplay":
+        this.setState({ displayList: { display: "none" } });
+        this.setState({ displayForm: { display: "none" } });
+        this.setState({ displaySearchReturn: { display: "block" } });
+        break;
+
+      case "buttonDisplay1":
+        this.setState({ displayAddBtn: { display: "none" } });
+        this.setState({ displayEditBtn: { display: "block" } });
+        this.setState({ displayList: { display: "none" } });
+        this.setState({ displayForm: { display: "block" } });
+        break;
+
+      case "buttonDisplay2":
+        this.setState({ displayAddBtn: { display: "block" } });
+        this.setState({ displayEditBtn: { display: "none" } });
+        break;
+
+      case "displayFormError":
+        this.setState({
+          displayFormError: {
+            color: "red",
+            display: "inline",
+            fontSize: "14px",
+            textAlign: "left",
+          },
+        });
+        this.setState({ outline: { border: "1px solid red" } });
+        break;
+
+      default:
+        break;
     }
   };
 
