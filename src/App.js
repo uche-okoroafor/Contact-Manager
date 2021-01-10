@@ -5,30 +5,30 @@ import Form from "./components/form";
 import "./App.css";
 import SearchBar from './components/Search'
 
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleNickNameChange = this.handleNickNameChange.bind(this);
-    this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
-    this.handleAddressChange = this.handleAddressChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       name: "",
       nickName: "",
       mobileNumber: "",
       address: "",
-      display: { color: "red", display: "none" },
+      displayFormError: { color: "red", display: "none" },
       outline: {},
       displayList: { color: "red", display: "none" },
       displayForm: { display: "block" },
-      displayEditBtn:{display:"none"},
-      displayAddBtn:{display:"block"},
+      displayEditBtn: { display: "none" },
+      displayAddBtn: { display: "block" },
+      displaySearchReturn: { display: "none" },
       targetContact: this.props.contacts,
       id: 4,
-      index:'',
+      index: "",
     };
   }
+
   handleNameChange(e) {
     this.setState({
       name: e.target.value,
