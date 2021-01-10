@@ -40,7 +40,6 @@ class App extends Component {
     if (this.state.name !== "" && this.state.mobileNumber !== "") {
       e.preventDefault();
       let name = { name: this.state.name };
-
       let nickName = { nickName: this.state.nickName };
 
       let mobileNumber = { mobileNumber: this.state.mobileNumber };
@@ -57,17 +56,8 @@ class App extends Component {
 
       this.setState({ address: "" });
       this.setState({ id: this.state.id + 1 });
-
-      this.setState({
-        display: { color: "red", display: "none", fontSize: "14px" },
-      });
-      this.setState({ outline: {} });
     } else {
-      this.setState({
-        display: { color: "red", display: "inline", fontSize: "14px" },
-      });
-      this.setState({ outline: { border: "1px solid red" } });
-
+      this.toggleDisplay("displayFormError");
       e.preventDefault();
     }
   }
