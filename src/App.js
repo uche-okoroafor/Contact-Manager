@@ -111,10 +111,8 @@ setTimeout(() => {this.expandContact(this.props.contacts.length-1)
   expandContact = (id,) => {
 
     const filtered = this.props.contacts.filter((data, i) => i === id);
-    this.setState({ targetContact: filtered ,displayList: { display: "block" } ,displayForm: { display: "none" } ,});
-    this.setState({ });
-    this.setState({ });
-     this.setState({index:id});
+    this.setState({ targetContact: filtered ,displayList: { display: "block" } ,displayForm: { display: "none" } ,index:id});
+  
   };
 
   allcontact(data, index) {
