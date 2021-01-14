@@ -133,9 +133,7 @@ setTimeout(() => {this.expandContact(this.props.contacts.length-1)
  toggleDisplay = (action) => {
     switch (action) {
       case "displayList":
-        this.setState({ displayList: { display: "block" } });
-        this.setState({ displayForm: { display: "none" } });
-        this.setState({ displaySearchReturn: { display: "none" } });
+        this.setState({ displayList: { display: "block" } , displayForm: { display: "none" },displaySearchReturn: { display: "none" }});
         break;
       case "displayForm":
         this.setState({ displayList: { display: "none" } });
