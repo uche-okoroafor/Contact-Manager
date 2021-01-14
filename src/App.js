@@ -48,14 +48,8 @@ class App extends Component {
       let id = { id: this.state.id };
       this.props.createContact(name, nickName, mobileNumber, address, id);
 
-      this.setState({ name: "" ,nickName: "", mobileNumber: ""});
+      this.setState({ name: "" ,nickName: "", mobileNumber: "", address: "" , id: this.state.id + 1});
 
-      this.setState({  });
-
-      this.setState({ });
-
-      this.setState({ address: "" });
-      this.setState({ id: this.state.id + 1 });
     } else {
       this.toggleDisplay("displayFormError");
       e.preventDefault();
