@@ -48,11 +48,11 @@ class App extends Component {
       let id = { id: this.state.id };
       this.props.createContact(name, nickName, mobileNumber, address, id);
 
-      this.setState({ name: "" });
+      this.setState({ name: "" ,nickName: "", mobileNumber: ""});
 
-      this.setState({ nickName: "" });
+      this.setState({  });
 
-      this.setState({ mobileNumber: "" });
+      this.setState({ });
 
       this.setState({ address: "" });
       this.setState({ id: this.state.id + 1 });
