@@ -136,8 +136,7 @@ setTimeout(() => {this.expandContact(this.props.contacts.length-1)
         this.setState({ displayList: { display: "block" } , displayForm: { display: "none" },displaySearchReturn: { display: "none" }});
         break;
       case "displayForm":
-        this.setState({ displayList: { display: "none" } });
-        this.setState({ displayForm: { display: "block" } });
+        this.setState({ displayList: { display: "none" }, displayForm: { display: "block" }  });
         break;
 
       case "searchdisplay":
