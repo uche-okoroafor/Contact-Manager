@@ -8,6 +8,7 @@ function ListView(props) {
 
  function  deleteContact(e, index) {
     e.preventDefault();
+console.log(index);
     props.deleteContact(index);
     if (props.contacts.length === 1) {
       props.toggleDisplay("displayForm");
@@ -21,26 +22,72 @@ function ListView(props) {
 
   return (
     <div className="row" style={props.displayList}>
+   <div className="">
+        <img src={props.data.pictureL} key={props.index} className="form-control p-3  contactimage" alt='contactimg'/>
+      </div>
       <div className="">
         <li key={props.index} className="form-control p-3">
-          Name: {props.data.name}
+         <span>Title:</span> {props.data.title}
         </li>
       </div>
       <div className="">
         <li key={props.index} className="form-control p-3">
-          NickName: {props.data.nickName}
+          <span> Firestname:</span>  {props.data.firstName}
         </li>
       </div>
       <div className="">
         <li key={props.index} className="form-control p-3">
-          MobileNumber: {props.data.mobileNumber}
+          Lastname: {props.data.lastName}
+        </li>
+      </div>
+
+    <div className="">
+        <li key={props.index} className="form-control p-3">
+          Phone: {props.data.phone}
         </li>
       </div>
       <div className="">
         <li key={props.index} className="form-control p-3">
-          Address: {props.data.address}
+          Cell: {props.data.cell}
         </li>
       </div>
+
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+          Streetnumber: {props.data.streetNumber}
+        </li>
+      </div>
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+          streetNumber: {props.data.streetNumber}
+        </li>
+      </div>
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+          City: {props.data.city}
+        </li>
+      </div>
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+          State: {props.data.state}
+        </li>
+      </div>
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+         Country: {props.data.country}
+        </li>
+      </div>
+        <div className="">
+        <li key={props.index} className="form-control p-3">
+          postcode: {props.data.postcode}
+        </li>
+      </div>
+      <div className="">
+        <li key={props.index} className="form-control p-3">
+          Email: {props.data.email}
+        </li>
+      </div>
+  
 
       <button
         className="btn bg-success  form-control m-2"
@@ -71,12 +118,40 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createContact: (nickName, name, mobileNumber, address, id) =>
+    createContact: (    title,
+    firstName,
+    lastName,
+    streetNum,
+    streetName,
+    city,
+    state,
+    country,
+    postcode,
+    email,
+    phone,
+    cell,
+    pictureL,
+    pictureM,
+    pictureT) =>
       dispatch(
-        contactAction.createContact(nickName, name, mobileNumber, address, id)
+        contactAction.createContact(title,
+    firstName,
+    lastName,
+    streetNum,
+    streetName,
+    city,
+    state,
+    country,
+    postcode,
+    email,
+    phone,
+    cell,
+    pictureL,
+    pictureM,
+    pictureT)
       ),
 
-    deleteContact: (index) => dispatch(contactAction.deleteContact(index)),
+    deleteContact:(index) => dispatch(contactAction.deleteContact(index)),
   };
 };
 
