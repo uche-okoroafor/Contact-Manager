@@ -4,8 +4,8 @@ import uchepic from '../images/uchepic.jpg'
 
 function AllContacts(props) {
 
-const[backgroundActive,setBackgroundActive] = useState({backgroundColor:'rgba(76, 153, 73, 0.918)'});
-const[background,setBackground] = useState();
+const backgroundActive ={backgroundColor:'rgba(76, 153, 73, 0.918)'}
+const background ='' ;
 const [displayDiv,setDisplayDiv] =useState({display:'none'});
 const[thumbnail,setThumbnail] = useState({
 backgroundColor: 'sienna',
