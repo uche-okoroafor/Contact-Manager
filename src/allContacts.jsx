@@ -1,26 +1,15 @@
 import React, {useState} from 'react';
-import logo from '../images/logo192.png'
-import uchepic from '../images/uchepic.jpg'
+import contacticont from '../images/contacticont.png'
 
 function AllContacts(props) {
 
-const backgroundActive ={backgroundColor:'rgba(76, 153, 73, 0.918)'}
-const background ='' ;
-const [displayDiv,setDisplayDiv] =useState({display:'none'});
-const[thumbnail,setThumbnail] = useState({
-backgroundColor: 'sienna',
-width: '50px',
-height:'50px',
-borderRadius:'10px',
-display: 'inline-block',
-marginRight:'10%',
-transition:'1s',
-});
+const[backgroundActive,setBackgroundActive] = useState({
+backgroundColor:'rgba(76, 153, 73, 0.918)',marginTop:'15px',boxShadow:'0px 0px 5px 5px rgba(184,226,242,1)',color:'#ffffff'});
 
-
-
-
-
+const[background,setBackground] = useState();
+const [emptyDiv,setEmptyDiv] =useState({display:'none'});
+const [thumbnail,setThumbnail]=useState('thumbnail')
+const disEmptyDiv = {display:'block'};
 
 function activeClick(index,id) {
 if(index===id){
@@ -29,44 +18,24 @@ return backgroundActive
  return background
 }
 
-
-function handleMouseOver(){
-setDisplayDiv({display:'block'});
-setThumbnail(
+function activeThumbnail(index,id)
 {
-backgroundColor: 'sienna',
-width: '50px',
-height:'50px',
-borderRadius:'10px',
-display: 'inline-block',
-marginRight:'10%',
-position: 'absolute',
-top:'-10px',
-left:'-10px',
-borderTop:'2px solid #50c1ee ',
-borderLeft:'2px solid #50c1ee',
-});
-
-
-
-
+if(index===id){
+return 'activethumbnail'
+}
+ return thumbnail
 }
 
-function handleMouseLeave(){
-setDisplayDiv({display:'none'})
-setThumbnail(
+
+
+function displayDiv(index,id)
 {
-backgroundColor: 'sienna',
-width: '50px',
-height:'50px',
-borderRadius:'10px',
-display: 'inline-block',
-marginRight:'10%',
-});
+if(index===id){
 
-
+return disEmptyDiv
 }
-
+ return emptyDiv
+}
 
 
 
@@ -75,22 +44,36 @@ if(props.contact.pictureT[0] === 'h'){
 
 return props.contact.pictureT;
 }
-return uchepic;
+return contacticont;
+}
+
+function handleMouseOver(){
+setEmptyDiv({display:'block'});
+setThumbnail('activethumbnail');
+}
+
+function handleMouseLeave(){
+setEmptyDiv({display:'none'})
+setThumbnail('thumbnail');
 }
 
 
-    return (
+
+
+
+
+   return (
       <React.Fragment>
 
         <li
           key={props.index}
           style={activeClick(props.index,props.id)}
-          className="list-group-item clearfix  displaylist"
-          onClick={(e,) => {props.expandContact(props.index,e)}}
-          onMouseOver={handleMouseOver}
+          className={'list-group-item clearfix displaylist'}
+          onClick={(e) => {props.expandContact(props.index,e)}}
+           onMouseOver={handleMouseOver}
            onMouseLeave={handleMouseLeave}
         >
-       <img src={imgSrc()} alt=""   style={thumbnail}/><div style={displayDiv}></div> {props.contact.firstName} {props.contact.lastName}
+       <img src={imgSrc()} className={activeThumbnail(props.index,props.id)} alt="contacticont" /><div style={displayDiv(props.index,props.id)}></div> {props.contact.firstName} {props.contact.lastName}
         </li>
  
       </React.Fragment>
@@ -99,3 +82,4 @@ return uchepic;
 
 
 export default AllContacts;
+
