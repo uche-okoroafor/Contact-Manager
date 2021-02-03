@@ -6,12 +6,14 @@ import SearchBar from "./components/Search";
 import ListView from "./components/listView";
 import Form from "./components/form";
 import AllContacts from "./components/allContacts";
+import SideButtons from "./components/sideButtons";
+import DeleteContacts from "./components/deleteContacts";
+import EditContacts from "./components/editsContacts";
+import RecentlyAdded from "./components/recentlyAdded.jsx";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       apiContact: null,
       title: "",
@@ -30,15 +32,20 @@ class App extends Component {
       pictureM: "",
       pictureT: "",
       index: "",
+    activate:'notactive',
+     isChecked:false,
       outline: {},
       displayFormError: { color: "red", display: "none" },
-      activeClick:{ },
       displayList: { color: "red", display: "none" },
       displayForm: { display: "block" },
       displayEditBtn: { display: "none" },
       displayAddBtn: { display: "block" },
       displaySearchReturn: { display: "none" },
-      emptyContactDisplay: { display: "none" },
+      emptyContactDisplay: { display: "none", color: "red" },
+      displayDeletecontacts: { display: "none" },
+      displayDeleteBtn1: { display: "block" },
+      displayDeleteBtn2: { display: "none" },
+      displayEditcontacts:{ display: "none" },
       targetContact: this.props.contacts,
     };
   }
@@ -65,6 +72,8 @@ class App extends Component {
       let pictureL = { pictureL: data.picture.large };
       let pictureM = { pictureM: data.picture.medium };
       let pictureT = { pictureT: data.picture.thumbnail };
+  let isChecked = { isChecked: false };
+    
       this.props.createContact(
         title,
         firstName,
@@ -80,20 +89,21 @@ class App extends Component {
         cell,
         pictureL,
         pictureM,
-        pictureT
+        pictureT,
+         isChecked,
       );
     }
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
     });
-  }
+  };
 
-  handleSubmit(e) {
-    if (this.state.firstName !== "" && this.state.cell !== "") {
+  handleSubmit = (e) => {
+    if (this.state.firstName !== "" && this.state.phone !== "") {
       e.preventDefault();
       let title = { title: this.state.title };
       let firstName = { firstName: this.state.firstName };
@@ -110,6 +120,7 @@ class App extends Component {
       let pictureL = { pictureL: this.state.pictureL };
       let pictureM = { pictureM: this.state.pictureM };
       let pictureT = { pictureT: this.state.pictureT };
+      let isChecked ={isChecked:false}
       this.props.createContact(
         title,
         firstName,
@@ -125,7 +136,8 @@ class App extends Component {
         cell,
         pictureL,
         pictureM,
-        pictureT
+        pictureT,
+        isChecked,
       );
 
       this.setState({
@@ -149,15 +161,15 @@ class App extends Component {
       this.toggleDisplay("displayFormError");
       e.preventDefault();
     }
-  }
+  };
 
-  expandContact = (id) => {
+  expandContact = (id, e) => {
     const filtered = this.props.contacts.filter((data, i) => i === id);
     this.setState({ targetContact: filtered, index: id });
     this.toggleDisplay("displayList");
   };
 
- editContact = (e, i) => {
+  editContact = (e, i) => {
     e.preventDefault();
 
     this.setState({
@@ -173,13 +185,9 @@ class App extends Component {
       email: this.state.targetContact[0].email,
       phone: this.state.targetContact[0].phone,
       cell: this.state.targetContact[0].cell,
-      pictureL: this.state.targetContact[0].pictureL,
-      pictureM: this.state.targetContact[0].pictureM,
-      pictureT: this.state.targetContact[0].mobileNumber,
     });
-    this.toggleDisplay("buttonDisplay1");
+    this.toggleDisplay("displayEditContact");
   };
-
 
   submitEdit = (e, i) => {
     this.deleteContact(e, this.state.index);
@@ -189,6 +197,13 @@ class App extends Component {
       this.expandContact(this.props.contacts.length - 1);
     }, 100);
   };
+
+
+ deleteContact=(e, index)=> {
+    e.preventDefault();
+   this.props.deleteContact(index);
+  
+  }
 
   cancelEdit = (e) => {
     this.setState({
@@ -209,7 +224,7 @@ class App extends Component {
       pictureT: "",
     });
     this.expandContact(this.state.index);
-  }; 
+  };
 
   toggleDisplay = (action) => {
     switch (action) {
@@ -218,6 +233,10 @@ class App extends Component {
           displayList: { display: "block" },
           displayForm: { display: "none" },
           displaySearchReturn: { display: "none" },
+          displayDeletecontacts: { display: "none" },
+          displayDeleteBtn2: { display: "none" },
+          displayDeleteBtn1: { display: "block" },
+        displayEditcontacts:{ display: "none" },
         });
         break;
       case "displayForm":
@@ -225,6 +244,10 @@ class App extends Component {
           displayList: { display: "none" },
           displayForm: { display: "block" },
           emptyContactDisplay: { display: "block" },
+          displayDeletecontacts: { display: "none" },
+          displayDeleteBtn2: { display: "none" },
+          displayDeleteBtn1: { display: "block" },
+          displayEditcontacts:{ display: "none" },
         });
 
         break;
@@ -234,16 +257,22 @@ class App extends Component {
           displayList: { display: "none" },
           displayForm: { display: "none" },
           displaySearchReturn: { display: "block" },
+          displayDeletecontacts: { display: "none" },
+          displayDeleteBtn2: { display: "none" },
+          displayDeleteBtn1: { display: "block" },
+        displayEditcontacts:{ display: "none" },
         });
 
         break;
 
-      case "buttonDisplay1":
+      case "displayEditContact":
         this.setState({
           displayAddBtn: { display: "none" },
           displayEditBtn: { display: "block" },
           displayList: { display: "none" },
           displayForm: { display: "block" },
+          displayDeletecontacts: { display: "none" },
+          displayEditcontacts:{ display: "none" },
         });
         break;
 
@@ -266,11 +295,29 @@ class App extends Component {
           outline: { border: "1px solid red" },
         });
         break;
- case "activeClick":
+
+      case "displayDeleteContacts":
         this.setState({
-         activeClick: {backgroundColor:'rgba(76, 153, 73, 0.918)',}
+          displayDeletecontacts: { display: "block" },
+          displayList: { display: "none" },
+          displayForm: { display: "none" },
+          displayDeleteBtn2: { display: "block" },
+          displayDeleteBtn1: { display: "none" },
+          displayEditcontacts:{ display: "none" },
         });
         break;
+
+ case "displayAll4edit":
+        this.setState({
+          displayDeletecontacts: { display: "none" },
+          displayEditcontacts:{ display: "block" },
+          displayList: { display: "none" },
+          displayForm: { display: "none" },
+          displayDeleteBtn1: { display: "block" },
+          displayDeleteBtn2: { display: "none" },
+        });
+        break;
+
 
 
       default:
@@ -278,19 +325,28 @@ class App extends Component {
     }
   };
 
- 
+
+transferFunction=(num)=>{
+this.setState({
+activate:num
+});
+console.log(this.state.activate)
+}
 
 
   render() {
     return (
-      <div className='contact-body'>
-        <h1 className="text-center">Contacts Manager</h1>
-        <hr />
-        <div className="container-fluid text-center">
-          <div class="row content">
-            <div className="col-sm-3 allcontacts">
-              <h5 className="text-center">All Contacts</h5>
-              <hr />
+      <div className="contact-body">
+        <div className="contact-header">
+          <h1 className="text-center">Contacts Manager</h1>
+          <hr />
+        </div>
+        <div className="container-fluid text-center pt-10">
+          <div class="">
+            <div className="allcontacts pt-10">
+              <div className="all-contactheading">
+                <h5 className="text-center pt-3">All Contacts</h5>
+              </div>
               <ul>
                 {this.props.contacts.map((contact, index) => (
                   <AllContacts
@@ -298,7 +354,7 @@ class App extends Component {
                     index={index}
                     expandContact={this.expandContact}
                     activeClick={this.state.activeClick}
-                    toggleDisplay={this.toggleDisplay}
+                    id={this.state.index}
                   />
                 ))}
                 <div style={this.state.emptyContactDisplay}>
@@ -306,46 +362,47 @@ class App extends Component {
                 </div>
               </ul>
             </div>
-            <div className="col-sm-6 text-center contact-form">
-              <SearchBar
-                expandContact={this.expandContact}
-                filteredSearch={this.state.filteredSearch}
-                displaySearchReturn={this.state.displaySearchReturn}
-                toggleDisplay={this.toggleDisplay}
-              />
+            <div className="contact-form">
+              <div className="searchbar">
+                <SearchBar
+                  expandContact={this.expandContact}
+                  filteredSearch={this.state.filteredSearch}
+                  displaySearchReturn={this.state.displaySearchReturn}
+                  toggleDisplay={this.toggleDisplay}
+                />
 
-              <Form
-                title={this.state.title}
-                firstName={this.state.firstName}
-                lastName={this.state.lastName}
-                streetName={this.state.streetName}
-                streetNumber={this.state.streetNumber}
-                city={this.state.city}
-                state={this.state.state}
-                country={this.state.country}
-                postCode={this.state.postCode}
-                email={this.state.email}
-                phone={this.state.phone}
-                cell={this.state.cell}
-                pictureL={this.state.pictureL}
-                pictureM={this.state.pictureM}
-                pictureT={this.state.pictureT}
-                handleSubmit={this.handleSubmit}
-                handleChange={this.handleChange}
-                display={this.state.displayFormError}
-                outline={this.state.outline}
-                displayForm={this.state.displayForm}
-                displayEditBtn={this.state.displayEditBtn}
-                displayAddBtn={this.state.displayAddBtn}
-                submitEdit={this.submitEdit}
-                cancelEdit={this.cancelEdit}
-              />
-              {
+                <Form
+                  title={this.state.title}
+                  firstName={this.state.firstName}
+                  lastName={this.state.lastName}
+                  streetName={this.state.streetName}
+                  streetNumber={this.state.streetNumber}
+                  city={this.state.city}
+                  state={this.state.state}
+                  country={this.state.country}
+                  postCode={this.state.postCode}
+                  email={this.state.email}
+                  phone={this.state.phone}
+                  cell={this.state.cell}
+                  pictureL={this.state.pictureL}
+                  pictureM={this.state.pictureM}
+                  pictureT={this.state.pictureT}
+                  handleSubmit={this.handleSubmit}
+                  handleChange={this.handleChange}
+                  display={this.state.displayFormError}
+                  outline={this.state.outline}
+                  displayForm={this.state.displayForm}
+                  displayEditBtn={this.state.displayEditBtn}
+                  displayAddBtn={this.state.displayAddBtn}
+                  submitEdit={this.submitEdit}
+                  cancelEdit={this.cancelEdit}
+                />
+
                 <ul className="list-group">
-                  {this.state.targetContact.map((contact, index) => (
+                  {this.state.targetContact.map((contact, id) => (
                     <ListView
                       data={contact}
-                      index={index}
+                      index={this.state.index}
                       displayList={this.state.displayList}
                       editContact={this.editContact}
                       deleteContact={this.deleteContact}
@@ -354,15 +411,58 @@ class App extends Component {
                     />
                   ))}
                 </ul>
-              }
+                <div
+                  className="deletecontacts"
+                  style={this.state.displayDeletecontacts}
+                >
+                  <DeleteContacts
+                    deleteContact={this.deleteContact}
+                    toggleDisplay={this.toggleDisplay}
+                    transferFunction={this.transferFunction}
+                   activate={this.state.activate}
+                  />
+
+                </div>
+
+    <div
+                  className="Editcontacts"
+                  style={this.state.displayEditcontacts}
+                >
+                  <EditContacts
+                    editContact={this.editContact}
+                    toggleDisplay={this.toggleDisplay}
+
+                  />
+
+                </div>
+
+              </div>
             </div>
-            <div className="col-sm-3 sidenav">
-              <button
-                className="form-control  bg-success  m-2"
-                onClick={() => this.toggleDisplay("displayForm")}
-              >
-                Create New Contact
-              </button>
+
+            <div className=" optionsbar">
+              <div>
+                <SideButtons
+                  toggleDisplay={this.toggleDisplay}
+                  displayDeleteBtn1={this.state.displayDeleteBtn1}
+                  displayDeleteBtn2={this.state.displayDeleteBtn2}
+                  transferFunction={this.transferFunction}
+                />
+              </div>
+<div>
+<h5 className='text-center pt-3'>Recently Added Contacts</h5>
+<div>
+                  <RecentlyAdded
+                    expandContact={this.expandContact}
+                    activeClick={this.state.activeClick}
+                    id={this.state.index}
+                    contacts={this.props.contacts}
+                  />
+            </div>
+                <div style={this.state.emptyContactDisplay}>
+                  contact is empty
+                </div>
+          
+</div>
             </div>
           </div>
         </div>
@@ -394,7 +494,9 @@ const mapDispatchToProps = (dispatch) => {
       cell,
       pictureL,
       pictureM,
-      pictureT
+      pictureT,
+      isChecked,
+   
     ) =>
       dispatch(
         contactAction.createContact(
@@ -412,7 +514,8 @@ const mapDispatchToProps = (dispatch) => {
           cell,
           pictureL,
           pictureM,
-          pictureT
+          pictureT,
+          isChecked
         )
       ),
 
