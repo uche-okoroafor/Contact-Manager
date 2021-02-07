@@ -443,3 +443,70 @@ margin-bottom: 50px;
   letter-spacing: .04em;
   text-transform: uppercase;
 }
+
+.form-control-label {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #525f7f;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.card-profile-image img {
+    position: absolute;
+    left: 50%;
+    max-width: 180px;
+    transition: all .15s ease;
+    transform: translate(-50%, -30%);
+    border-radius: .375rem;
+}
+
+.shadow, .card-profile-image img {
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15) !important;
+}
+
+
+.text-center {
+
+    text-align: center !important;
+
+}
+
+.pb-md-4 {
+    padding-bottom: 1.5rem !important;
+}
+
+.pt-md-4 {
+    padding-top: 1.5rem !important;
+}
+
+.card-header {
+    margin-bottom: 0;
+    padding: 1.25rem 1.5rem;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 1.5rem;
+        padding-top: 1.5rem;
+    flex: 1 1 auto;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.card {
+    word-wrap: break-word;
+}
+
+.imgphone{
+max-width: 20px;
+
+}
