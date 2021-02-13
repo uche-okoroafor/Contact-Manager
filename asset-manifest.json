@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/Contact-Manager/static/css/main.8f621483.chunk.css",
-    "main.js": "/Contact-Manager/static/js/main.1aa4c1da.chunk.js",
-    "main.js.map": "/Contact-Manager/static/js/main.1aa4c1da.chunk.js.map",
+    "main.css": "/Contact-Manager/static/css/main.f6deee56.chunk.css",
+    "main.js": "/Contact-Manager/static/js/main.cc4fa178.chunk.js",
+    "main.js.map": "/Contact-Manager/static/js/main.cc4fa178.chunk.js.map",
     "runtime-main.js": "/Contact-Manager/static/js/runtime-main.daa330d1.js",
     "runtime-main.js.map": "/Contact-Manager/static/js/runtime-main.daa330d1.js.map",
     "static/css/2.13fd37b7.chunk.css": "/Contact-Manager/static/css/2.13fd37b7.chunk.css",
-    "static/js/2.2788a114.chunk.js": "/Contact-Manager/static/js/2.2788a114.chunk.js",
-    "static/js/2.2788a114.chunk.js.map": "/Contact-Manager/static/js/2.2788a114.chunk.js.map",
+    "static/js/2.7065b71c.chunk.js": "/Contact-Manager/static/js/2.7065b71c.chunk.js",
+    "static/js/2.7065b71c.chunk.js.map": "/Contact-Manager/static/js/2.7065b71c.chunk.js.map",
     "index.html": "/Contact-Manager/index.html",
     "static/css/2.13fd37b7.chunk.css.map": "/Contact-Manager/static/css/2.13fd37b7.chunk.css.map",
-    "static/css/main.8f621483.chunk.css.map": "/Contact-Manager/static/css/main.8f621483.chunk.css.map",
-    "static/js/2.2788a114.chunk.js.LICENSE.txt": "/Contact-Manager/static/js/2.2788a114.chunk.js.LICENSE.txt"
+    "static/css/main.f6deee56.chunk.css.map": "/Contact-Manager/static/css/main.f6deee56.chunk.css.map",
+    "static/js/2.7065b71c.chunk.js.LICENSE.txt": "/Contact-Manager/static/js/2.7065b71c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.daa330d1.js",
     "static/css/2.13fd37b7.chunk.css",
-    "static/js/2.2788a114.chunk.js",
-    "static/css/main.8f621483.chunk.css",
-    "static/js/main.1aa4c1da.chunk.js"
+    "static/js/2.7065b71c.chunk.js",
+    "static/css/main.f6deee56.chunk.css",
+    "static/js/main.cc4fa178.chunk.js"
   ]
 }
