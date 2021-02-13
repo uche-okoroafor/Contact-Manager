@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as contactAction from "../actions/contactAction";
 import contacticont from "../images/contacticont.png";
-
-
-
 
 
 
@@ -14,82 +9,14 @@ class DeleteContacts extends Component {
     super(props);
 
     this.state = {
-      checkbox: this.props.checkbox,
+   
     };
 
   }
-
-  componentDidMount() {
-    this.createArrayFalse()
-  }
-
-  createArrayFalse = () => {
-    let arr = this.state.checkbox;
-    for (let i = 0; i < 34; i++) {
-      arr = [...arr, false];
-    }
-    this.setState({
-      checkbox: arr,
-    });
-  };
-
- createArrayTrue = () => {
-    let arr = this.state.checkbox;
-    for (let i = 0; i < 34; i++) {
-      arr = [...arr, true];
-    }
-    this.setState({
-      checkbox: arr,
-    });
-  };
-
-
-  handlechange = (index, e) => {
-    let arr = this.state.checkbox;
-    arr[index] = e.target.checked;
-    this.setState({
-      checkbox: arr,
-    });
-  };
-
-
-handleAllDelete = (e) => {
-
-    for (let i = 0; i < this.state.checkbox.length; i++) {
-      if (this.state.checkbox[i] === true) {
-        this.deleteContact(e, i);
-        let arr = this.state.checkbox;
-        arr.splice(i, 1);
-        this.setState({
-          checkbox: arr,
-        });
-      }
-    }
-
-  };
-
-
-runFunction=(e,activate)=>{
-console.log(activate)
-if(activate===1)
-{
-this.createArrayTrue();
-}
-}
-
-
-
-
-
-
-
-
-
-
   deleteContact = (e, index) => {
     e.preventDefault();
-    this.props.deleteContact(index);
-    this.props.createArrayFalse();
+    this.props.deleteContact(e,index);
+this.props.reduceCheckboxArray(index);
   };
 
   imgSrc = (contact) => {
@@ -120,85 +47,27 @@ this.createArrayTrue();
           type="checkbox"
           class="checkbox"
           name="checkbox"
-          checked={this.state.checkbox[index]}
-          onChange={(e) => this.handlechange(index, e)}
+          checked={this.props.checkbox[index]}
+          onChange={(e) => this.props.handleCheckboxChange(index, e)}
         />
       </li>
 
     ));
 
+
     return list;
   };
 
   render() {
+console.log(this.props.checkbox)
     return (
       <React.Fragment>
 
         <ul>{this.allCountacts()}</ul>
-
-        <button className="btn bg-danger" onClick={this.handleAllDelete}>
-          btndele
-        </button>
-<input type="text" value={(e)=>this.runFunction(e,this.props.activate)} style={{display:'none'}}/>
       </React.Fragment>
     );
   }
 }
 
 
-
-
-
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    contacts: state.contacts,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createContact: (
-      title,
-      firstName,
-      lastName,
-      streetNum,
-      streetName,
-      city,
-      state,
-      country,
-      postcode,
-      email,
-      phone,
-      cell,
-      pictureL,
-      pictureM,
-      pictureT,
-      isChecked
-    ) =>
-      dispatch(
-        contactAction.createContact(
-          title,
-          firstName,
-          lastName,
-          streetNum,
-          streetName,
-          city,
-          state,
-          country,
-          postcode,
-          email,
-          phone,
-          cell,
-          pictureL,
-          pictureM,
-          pictureT,
-          isChecked
-        )
-      ),
-
-    deleteContact: (index) => dispatch(contactAction.deleteContact(index)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteContacts);
+export default DeleteContacts;

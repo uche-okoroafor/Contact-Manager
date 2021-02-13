@@ -1,9 +1,22 @@
-import React  from "react";
+import React,{useState}  from "react";
 
 function SideButtons(props) {
 
+const[selectState,setSelectState]=useState("Select All Contacts");
+const [ischecked,setIschecked]=useState(false);
 
 
+
+const handleSelectState=()=>{
+if( ischecked === true)
+{ setSelectState("Select All Contacts") ;
+return setIschecked(!ischecked)
+
+}
+ setSelectState("Unselect All Contacts") 
+return setIschecked(!ischecked);
+
+}
 
 
 
@@ -27,7 +40,7 @@ function SideButtons(props) {
 
  <button
         className="btn bg-danger  m-2 sidebutton"
-        onClick={() =>{ props.toggleDisplay("displayDeleteContacts")
+        onClick={() =>{ props.toggleDisplay("displayDeleteContacts");
 }                
 }
        style={props.displayDeleteBtn1}
@@ -39,15 +52,16 @@ function SideButtons(props) {
  <button
         className="btn bg-danger  m-2 sidebutton"
         onClick={() =>{props.createArrayTrue();
+handleSelectState();
         }}
        style={props.displayDeleteBtn2}
       >
-      Select All Contacts
+     {selectState}
       </button>
 
  <button
         className="btn bg-danger  m-2 sidebutton"
-     onClick={() =>{props.createArrayTrue();
+     onClick={(e) =>{props.handleDeleteSelectedContact(e)
         }}
        style={props.displayDeleteBtn2}
       >

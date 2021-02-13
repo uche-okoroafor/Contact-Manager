@@ -11,7 +11,6 @@ import DeleteContacts from "./components/deleteContacts";
 import EditContacts from "./components/editsContacts";
 import RecentlyAdded from "./components/recentlyAdded";
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -36,8 +35,7 @@ class App extends Component {
       searchInput: "",
       isChecked: false,
       outline: {},
-     checkbox: [],
-      activate:[],
+      checkbox: this.props.contacts.map((ischecked) => ischecked.isChecked),
       displayFormError: { color: "red", display: "none" },
       displayList: { color: "red", display: "none" },
       displayForm: { display: "block" },
@@ -95,8 +93,8 @@ class App extends Component {
         pictureT,
         isChecked
       );
+      this.createArrayFalse();
     }
-this.createArrayFalse()
   }
 
   handleChange = (e) => {
@@ -143,6 +141,8 @@ this.createArrayFalse()
         pictureT,
         isChecked
       );
+
+      this.createArrayFalse();
 
       this.setState({
         title: "",
@@ -207,6 +207,26 @@ this.createArrayFalse()
     this.props.deleteContact(index);
   };
 
+  handleDeleteSelectedContact = (e) => {
+    for (let i = 0; i < this.state.checkbox.length; i++) {
+      if (this.state.checkbox[i] === true) {
+        this.deleteContact(e, i);
+     this.reduceCheckboxArray(i);
+      }
+    }
+  };
+
+reduceCheckboxArray=(index)=>{
+ let arr = this.state.checkbox;
+        arr.splice(index, 1);
+        this.setState({
+          checkbox: arr,
+        });
+}
+
+
+
+
   cancelEdit = (e) => {
     this.setState({
       title: "",
@@ -252,8 +272,8 @@ this.createArrayFalse()
           displayEditcontacts: { display: "none" },
           displaySearchReturn: { display: "none" },
           searchInput: "",
-  displayEditBtn: { display: "none"},
- displayAddBtn: { display: "block" },
+          displayEditBtn: { display: "none" },
+          displayAddBtn: { display: "block" },
         });
 
         break;
@@ -328,57 +348,61 @@ this.createArrayFalse()
         });
         break;
 
-
-
       default:
         break;
     }
   };
 
-emptyContactList=()=>{
-this.props.contacts.length ? 
-this.setState({emptyContactDisplay:{display:'block'}})
- :
-this.setState({emptyContactDisplay:{display:'none'}})
-}
+  emptyContactList = () => {
+    this.props.contacts.length
+      ? this.setState({ emptyContactDisplay: { display: "block" } })
+      : this.setState({ emptyContactDisplay: { display: "none" } });
+  };
 
-
-createArrayFalse = () => {
+  createArrayFalse = () => {
     let arr = this.state.checkbox;
-    for (let i = 0; i < 34; i++) {
-      arr = [...arr, false];
-    }
+    arr = [...arr, false];
     this.setState({
       checkbox: arr,
     });
   };
 
- createArrayTrue = () => {
-    let arr = [];
-    for (let i = 0; i < 34; i++) {
-      arr = [...arr, true];
-    }
+  handleCheckboxChange = (index, e) => {
+    let arr = this.state.checkbox;
+    arr[index] = e.target.checked;
     this.setState({
       checkbox: arr,
     });
-
-console.log(arr);
-console.log(this.state.checkbox)
   };
 
-  transferFunction = (num) => {
+  createArrayTrue = () => {
+    let arr = this.state.checkbox;
+    for (let i = 0; i < this.state.checkbox.length; i++) {
+      arr[i] = !arr[i];
+    }
     this.setState({
-      activate: num,
+      checkbox: arr,
     });
   };
 
   render() {
-// this.emptyContactList();
+    this.props.contacts.sort(function (a, b) {
+      var nameA = a.firstName.toUpperCase();
+      var nameB = b.firstName.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
     return (
       <div className="contact-body">
         <div className="contact-header">
           <h1 className="text-center">Contacts Manager</h1>
-          <hr  />
+          <hr />
         </div>
         <div className="container-fluid text-center pt-10">
           <div class="">
@@ -409,7 +433,6 @@ console.log(this.state.checkbox)
                   displaySearchReturn={this.state.displaySearchReturn}
                   toggleDisplay={this.toggleDisplay}
                   searchInput={this.state.searchInput}
-                   
                 />
 
                 <AddContact
@@ -462,7 +485,9 @@ console.log(this.state.checkbox)
                     transferFunction={this.transferFunction}
                     activate={this.state.activate}
                     checkbox={this.state.checkbox}
-                   createArrayFalse={this.createArrayFalse}
+                    handleCheckboxChange={this.handleCheckboxChange}
+                    contacts={this.props.contacts}
+                    reduceCheckboxArray={this.reduceCheckboxArray}
                   />
                 </div>
 
@@ -484,22 +509,23 @@ console.log(this.state.checkbox)
                   toggleDisplay={this.toggleDisplay}
                   displayDeleteBtn1={this.state.displayDeleteBtn1}
                   displayDeleteBtn2={this.state.displayDeleteBtn2}
-                 createArrayTrue={this.transferFunction}
+                  createArrayTrue={this.createArrayTrue}
+                  handleDeleteSelectedContact={this.handleDeleteSelectedContact}
                 />
               </div>
-              <div className='recent-contact-heading'>
+              <div className="recent-contact-heading">
                 <h5 className="text-center p-2">Recently Added Contacts</h5>
-  </div>
-                <div>
-                  <RecentlyAdded
-                        expandContact={this.expandContact}
-                        activeClick={this.state.activeClick}
-                        id={this.state.index}
-                        contacts={this.props.contacts}
-                      />
-              
-                    <div style={this.state.emptyContactDisplay}>
-                      contact is empty
+              </div>
+              <div>
+                <RecentlyAdded
+                  expandContact={this.expandContact}
+                  activeClick={this.state.activeClick}
+                  id={this.state.index}
+                  contacts={this.props.contacts}
+                />
+
+                <div style={this.state.emptyContactDisplay}>
+                  contact is empty
                 </div>
               </div>
             </div>
