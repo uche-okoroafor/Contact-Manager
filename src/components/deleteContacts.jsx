@@ -1,22 +1,16 @@
 import React, { Component } from "react";
 import contacticont from "../images/contacticont.png";
 
-
-
-
 class DeleteContacts extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-   
-    };
-
+    this.state = {};
   }
   deleteContact = (e, index) => {
     e.preventDefault();
-    this.props.deleteContact(e,index);
-this.props.reduceCheckboxArray(index);
+    this.props.deleteContact(e, index);
+    this.props.reduceCheckboxArray(index);
   };
 
   imgSrc = (contact) => {
@@ -51,23 +45,19 @@ this.props.reduceCheckboxArray(index);
           onChange={(e) => this.props.handleCheckboxChange(index, e)}
         />
       </li>
-
     ));
-
 
     return list;
   };
 
   render() {
-console.log(this.props.checkbox)
+    console.log(this.props.checkbox);
     return (
       <React.Fragment>
-
         <ul>{this.allCountacts()}</ul>
       </React.Fragment>
     );
   }
 }
-
 
 export default DeleteContacts;
