@@ -6,10 +6,16 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchInput: "",
+      searchInput: this.searchImport(),
       filteredSearch: [],
     };
   }
+
+
+searchImport=()=>this.props.searchInput;
+
+
+
 
   handleChange = (e) => {
     this.setState({ searchInput: e.target.value });
@@ -24,8 +30,13 @@ class SearchBar extends Component {
     });
     this.props.toggleDisplay("searchdisplay");
     e.preventDefault();
-    console.log(this.props.contacts);
+  
   };
+
+
+
+
+
 
 imgSrc=(data)=>{
 if(data[0] === 'h'){
@@ -45,10 +56,10 @@ return contacticont;
           onClick={(e) => {
             this.setState({searchInput:''});
             this.props.expandContact(index, e);
-            this.props.toggleDisplay("displayList");
+            this.props.toggleDisplay("displayContactDetails");
           }}
         >
-         <img src={this.imgSrc(data.pictureT)} className="thumbnail" alt="icon"/> {data.firstName} {data.lastName}
+         <img src={this.imgSrc(data.pictureT)}  className="thumbnail" alt="icon"/><div className='imgframe'></div> {data.firstName} {data.lastName}
         </li>
       </div>
     );

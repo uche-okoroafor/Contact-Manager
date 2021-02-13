@@ -20,20 +20,21 @@ class EditContacts extends Component {
 
   allCountacts = () => {
     const list = this.props.contacts.map((contact, index) => (
-      <li key={index} className={"list-group-item clearfix  displaylist"}>
+      <li key={index} className={"list-group-item clearfix  displayEditlist"}>
         {" "}
         <img
           src={this.imgSrc(contact)}
           alt="icon"
           className="thumbnail ml-2"
-        />{" "}
-        {contact.firstName} {contact.lastName}
+        /><span>{" "}
+        {contact.firstName} {contact.lastName}</span>
+
         <button
           onClick={(e) => this.props.editContact(e, index)}
-          className="btn btn-success form-control  deletebutton"
+          className="btn btn-info"
         >
           Edit Contact
-        </button>
+        </button> 
       </li>
     ));
 
@@ -41,9 +42,12 @@ class EditContacts extends Component {
   };
 
   render() {
+
     return (
       <React.Fragment>
+<div className="editcontacts">
         <ul>{this.allCountacts()}</ul>
+</div>
       </React.Fragment>
     );
   }

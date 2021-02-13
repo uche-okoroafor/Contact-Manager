@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import * as contactAction from "./actions/contactAction";
 import "./App.css";
 import SearchBar from "./components/Search";
-import ListView from "./components/listView";
-import Form from "./components/form";
+import ContactDetails from "./components/contactDetails";
+import AddContact from "./components/addcontact";
 import AllContacts from "./components/allContacts";
 import SideButtons from "./components/sideButtons";
 import DeleteContacts from "./components/deleteContacts";
 import EditContacts from "./components/editsContacts";
-import RecentlyAdded from "./components/recentlyAdded.jsx";
+import RecentlyAdded from "./components/recentlyAdded";
 
 class App extends Component {
   constructor(props) {
@@ -32,9 +32,10 @@ class App extends Component {
       pictureM: "",
       pictureT: "",
       index: "",
-    activate:'notactive',
-     isChecked:false,
+      searchInput: "",
+      isChecked: false,
       outline: {},
+      checkbox: this.props.contacts.map((ischecked) => ischecked.isChecked),
       displayFormError: { color: "red", display: "none" },
       displayList: { color: "red", display: "none" },
       displayForm: { display: "block" },
@@ -43,9 +44,9 @@ class App extends Component {
       displaySearchReturn: { display: "none" },
       emptyContactDisplay: { display: "none", color: "red" },
       displayDeletecontacts: { display: "none" },
-      displayDeleteBtn1: { display: "block" },
+      displayDeleteBtn1: { display: "inline-block" },
       displayDeleteBtn2: { display: "none" },
-      displayEditcontacts:{ display: "none" },
+      displayEditcontacts: { display: "none" },
       targetContact: this.props.contacts,
     };
   }
@@ -72,8 +73,8 @@ class App extends Component {
       let pictureL = { pictureL: data.picture.large };
       let pictureM = { pictureM: data.picture.medium };
       let pictureT = { pictureT: data.picture.thumbnail };
-  let isChecked = { isChecked: false };
-    
+      let isChecked = { isChecked: false };
+
       this.props.createContact(
         title,
         firstName,
@@ -90,8 +91,9 @@ class App extends Component {
         pictureL,
         pictureM,
         pictureT,
-         isChecked,
+        isChecked
       );
+      this.createArrayFalse();
     }
   }
 
@@ -120,7 +122,7 @@ class App extends Component {
       let pictureL = { pictureL: this.state.pictureL };
       let pictureM = { pictureM: this.state.pictureM };
       let pictureT = { pictureT: this.state.pictureT };
-      let isChecked ={isChecked:false}
+      let isChecked = { isChecked: false };
       this.props.createContact(
         title,
         firstName,
@@ -137,8 +139,10 @@ class App extends Component {
         pictureL,
         pictureM,
         pictureT,
-        isChecked,
+        isChecked
       );
+
+      this.createArrayFalse();
 
       this.setState({
         title: "",
@@ -166,7 +170,7 @@ class App extends Component {
   expandContact = (id, e) => {
     const filtered = this.props.contacts.filter((data, i) => i === id);
     this.setState({ targetContact: filtered, index: id });
-    this.toggleDisplay("displayList");
+    this.toggleDisplay("displayContactDetails");
   };
 
   editContact = (e, i) => {
@@ -198,12 +202,30 @@ class App extends Component {
     }, 100);
   };
 
-
- deleteContact=(e, index)=> {
+  deleteContact = (e, index) => {
     e.preventDefault();
-   this.props.deleteContact(index);
-  
-  }
+    this.props.deleteContact(index);
+  };
+
+  handleDeleteSelectedContact = (e) => {
+    for (let i = 0; i < this.state.checkbox.length; i++) {
+      if (this.state.checkbox[i] === true) {
+        this.deleteContact(e, i);
+     this.reduceCheckboxArray(i);
+      }
+    }
+  };
+
+reduceCheckboxArray=(index)=>{
+ let arr = this.state.checkbox;
+        arr.splice(index, 1);
+        this.setState({
+          checkbox: arr,
+        });
+}
+
+
+
 
   cancelEdit = (e) => {
     this.setState({
@@ -228,26 +250,30 @@ class App extends Component {
 
   toggleDisplay = (action) => {
     switch (action) {
-      case "displayList":
+      case "displayContactDetails":
         this.setState({
           displayList: { display: "block" },
           displayForm: { display: "none" },
           displaySearchReturn: { display: "none" },
+          searchInput: "",
           displayDeletecontacts: { display: "none" },
           displayDeleteBtn2: { display: "none" },
-          displayDeleteBtn1: { display: "block" },
-        displayEditcontacts:{ display: "none" },
+          displayDeleteBtn1: { display: "inline-block" },
+          displayEditcontacts: { display: "none" },
         });
         break;
-      case "displayForm":
+      case "displayCreateNewContact":
         this.setState({
           displayList: { display: "none" },
           displayForm: { display: "block" },
-          emptyContactDisplay: { display: "block" },
           displayDeletecontacts: { display: "none" },
           displayDeleteBtn2: { display: "none" },
-          displayDeleteBtn1: { display: "block" },
-          displayEditcontacts:{ display: "none" },
+          displayDeleteBtn1: { display: "inline-block" },
+          displayEditcontacts: { display: "none" },
+          displaySearchReturn: { display: "none" },
+          searchInput: "",
+          displayEditBtn: { display: "none" },
+          displayAddBtn: { display: "block" },
         });
 
         break;
@@ -259,8 +285,8 @@ class App extends Component {
           displaySearchReturn: { display: "block" },
           displayDeletecontacts: { display: "none" },
           displayDeleteBtn2: { display: "none" },
-          displayDeleteBtn1: { display: "block" },
-        displayEditcontacts:{ display: "none" },
+          displayDeleteBtn1: { display: "inline-block" },
+          displayEditcontacts: { display: "none" },
         });
 
         break;
@@ -272,7 +298,7 @@ class App extends Component {
           displayList: { display: "none" },
           displayForm: { display: "block" },
           displayDeletecontacts: { display: "none" },
-          displayEditcontacts:{ display: "none" },
+          displayEditcontacts: { display: "none" },
         });
         break;
 
@@ -301,40 +327,77 @@ class App extends Component {
           displayDeletecontacts: { display: "block" },
           displayList: { display: "none" },
           displayForm: { display: "none" },
-          displayDeleteBtn2: { display: "block" },
+          displayDeleteBtn2: { display: "inline-block" },
           displayDeleteBtn1: { display: "none" },
-          displayEditcontacts:{ display: "none" },
+          displayEditcontacts: { display: "none" },
+          displaySearchReturn: { display: "none" },
+          searchInput: "",
         });
         break;
 
- case "displayAll4edit":
+      case "displayAll4edit":
         this.setState({
           displayDeletecontacts: { display: "none" },
-          displayEditcontacts:{ display: "block" },
+          displayEditcontacts: { display: "block" },
           displayList: { display: "none" },
           displayForm: { display: "none" },
-          displayDeleteBtn1: { display: "block" },
+          displayDeleteBtn1: { display: "inline-block" },
           displayDeleteBtn2: { display: "none" },
+          displaySearchReturn: { display: "none" },
+          searchInput: "",
         });
         break;
-
-
 
       default:
         break;
     }
   };
 
+  emptyContactList = () => {
+    this.props.contacts.length
+      ? this.setState({ emptyContactDisplay: { display: "block" } })
+      : this.setState({ emptyContactDisplay: { display: "none" } });
+  };
 
-transferFunction=(num)=>{
-this.setState({
-activate:num
-});
-console.log(this.state.activate)
-}
+  createArrayFalse = () => {
+    let arr = this.state.checkbox;
+    arr = [...arr, false];
+    this.setState({
+      checkbox: arr,
+    });
+  };
 
+  handleCheckboxChange = (index, e) => {
+    let arr = this.state.checkbox;
+    arr[index] = e.target.checked;
+    this.setState({
+      checkbox: arr,
+    });
+  };
+
+  createArrayTrue = () => {
+    let arr = this.state.checkbox;
+    for (let i = 0; i < this.state.checkbox.length; i++) {
+      arr[i] = !arr[i];
+    }
+    this.setState({
+      checkbox: arr,
+    });
+  };
 
   render() {
+    this.props.contacts.sort(function (a, b) {
+      var nameA = a.firstName.toUpperCase();
+      var nameB = b.firstName.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
     return (
       <div className="contact-body">
         <div className="contact-header">
@@ -369,9 +432,10 @@ console.log(this.state.activate)
                   filteredSearch={this.state.filteredSearch}
                   displaySearchReturn={this.state.displaySearchReturn}
                   toggleDisplay={this.toggleDisplay}
+                  searchInput={this.state.searchInput}
                 />
 
-                <Form
+                <AddContact
                   title={this.state.title}
                   firstName={this.state.firstName}
                   lastName={this.state.lastName}
@@ -400,7 +464,7 @@ console.log(this.state.activate)
 
                 <ul className="list-group">
                   {this.state.targetContact.map((contact, id) => (
-                    <ListView
+                    <ContactDetails
                       data={contact}
                       index={this.state.index}
                       displayList={this.state.displayList}
@@ -419,23 +483,23 @@ console.log(this.state.activate)
                     deleteContact={this.deleteContact}
                     toggleDisplay={this.toggleDisplay}
                     transferFunction={this.transferFunction}
-                   activate={this.state.activate}
+                    activate={this.state.activate}
+                    checkbox={this.state.checkbox}
+                    handleCheckboxChange={this.handleCheckboxChange}
+                    contacts={this.props.contacts}
+                    reduceCheckboxArray={this.reduceCheckboxArray}
                   />
-
                 </div>
 
-    <div
+                <div
                   className="Editcontacts"
                   style={this.state.displayEditcontacts}
                 >
                   <EditContacts
                     editContact={this.editContact}
                     toggleDisplay={this.toggleDisplay}
-
                   />
-
                 </div>
-
               </div>
             </div>
 
@@ -445,24 +509,25 @@ console.log(this.state.activate)
                   toggleDisplay={this.toggleDisplay}
                   displayDeleteBtn1={this.state.displayDeleteBtn1}
                   displayDeleteBtn2={this.state.displayDeleteBtn2}
-                  transferFunction={this.transferFunction}
+                  createArrayTrue={this.createArrayTrue}
+                  handleDeleteSelectedContact={this.handleDeleteSelectedContact}
                 />
               </div>
-<div>
-<h5 className='text-center pt-3'>Recently Added Contacts</h5>
-<div>
-                  <RecentlyAdded
-                    expandContact={this.expandContact}
-                    activeClick={this.state.activeClick}
-                    id={this.state.index}
-                    contacts={this.props.contacts}
-                  />
-            </div>
+              <div className="recent-contact-heading">
+                <h5 className="text-center p-2">Recently Added Contacts</h5>
+              </div>
+              <div>
+                <RecentlyAdded
+                  expandContact={this.expandContact}
+                  activeClick={this.state.activeClick}
+                  id={this.state.index}
+                  contacts={this.props.contacts}
+                />
+
                 <div style={this.state.emptyContactDisplay}>
                   contact is empty
                 </div>
-          
-</div>
+              </div>
             </div>
           </div>
         </div>
@@ -495,8 +560,7 @@ const mapDispatchToProps = (dispatch) => {
       pictureL,
       pictureM,
       pictureT,
-      isChecked,
-   
+      isChecked
     ) =>
       dispatch(
         contactAction.createContact(
