@@ -20,7 +20,17 @@ searchImport=()=>this.props.searchInput;
   handleChange = (e) => {
     this.setState({ searchInput: e.target.value });
     this.setState({
-      filteredSearch: this.props.contacts.filter((contact) => {
+      filteredSearch:[...this.props.contacts].sort(function (a, b) {
+      var nameA = a.firstName.toUpperCase();
+      var nameB = b.firstName.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    }).filter((contact) => {
         return (
           contact.firstName
             .toLowerCase()
