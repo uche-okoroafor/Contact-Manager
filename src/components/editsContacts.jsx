@@ -19,7 +19,21 @@ class EditContacts extends Component {
   };
 
   allCountacts = () => {
-    const list = this.props.contacts.map((contact, index) => (
+  const list = [...this.props.contacts];
+list.sort(function (a, b) {
+      var nameA = a.firstName.toUpperCase();
+      var nameB = b.firstName.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+
+   const mappedList =list.map((contact, index) => (
       <li key={index} className={"list-group-item clearfix  displayEditlist"}>
         {" "}
         <img
@@ -38,7 +52,7 @@ class EditContacts extends Component {
       </li>
     ));
 
-    return list;
+    return mappedList;
   };
 
   render() {
