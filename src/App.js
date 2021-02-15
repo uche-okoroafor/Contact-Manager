@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import uuid from 'react-uuid';
 import { connect } from "react-redux";
 import * as contactAction from "./actions/contactAction";
 import "./App.css";
@@ -32,10 +33,11 @@ class App extends Component {
       pictureM: "",
       pictureT: "",
       index: "",
+       id:uuid(),
       searchInput: "",
       isChecked: false,
       outline: {},
-      checkbox: this.props.contacts.map((ischecked) => ischecked.isChecked),
+      checkbox: this.props.contacts.map((contact) =>({checkbox:contact.isChecked,id:contact.id})),
       displayFormError: { color: "red", display: "none" },
       displayList: { color: "red", display: "none" },
       displayForm: { display: "block" },
@@ -74,7 +76,7 @@ class App extends Component {
       let pictureM = { pictureM: data.picture.medium };
       let pictureT = { pictureT: data.picture.thumbnail };
       let isChecked = { isChecked: false };
-
+       let id = {id:uuid() };
       this.props.createContact(
         title,
         firstName,
@@ -91,9 +93,10 @@ class App extends Component {
         pictureL,
         pictureM,
         pictureT,
-        isChecked
+        isChecked,
+id,
       );
-      this.createArrayFalse();
+      this.createArrayFalse(id);
     }
   }
 
@@ -123,6 +126,7 @@ class App extends Component {
       let pictureM = { pictureM: this.state.pictureM };
       let pictureT = { pictureT: this.state.pictureT };
       let isChecked = { isChecked: false };
+        let id = {id:uuid() };
       this.props.createContact(
         title,
         firstName,
@@ -139,7 +143,8 @@ class App extends Component {
         pictureL,
         pictureM,
         pictureT,
-        isChecked
+        isChecked,
+       id,
       );
 
       this.createArrayFalse();
@@ -167,16 +172,42 @@ class App extends Component {
     }
   };
 
+
+
+
   expandContact = (id, e) => {
-    const filtered = this.props.contacts.filter((data, i) => i === id);
+    const filtered = this.props.contacts.filter((data) => data.id === id);
     this.setState({ targetContact: filtered, index: id });
     this.toggleDisplay("displayContactDetails");
+
   };
 
-  editContact = (e, i) => {
-    e.preventDefault();
 
-    this.setState({
+
+
+  editContact = (e, index,parameter) => {
+switch (parameter) {
+  case"editContacts":
+    const filtered = this.props.contacts.filter((contact)=>contact.id === index)
+   this.setState({
+      title:filtered[0].title,
+      firstName:filtered[0].firstName,
+      lastName:filtered[0].lastName,
+      streetNumber:filtered[0].streetNumber,
+      streetName:filtered[0].streetName,
+      city:filtered[0].city,
+      state:filtered[0].state,
+      country:filtered[0].country,
+      postcode:filtered[0].postcode,
+      email:filtered[0].email,
+      phone:filtered[0].phone,
+      cell:filtered[0].cell,
+    }) 
+    break;
+
+
+  case "editContact":
+ this.setState({
       title: this.state.targetContact[0].title,
       firstName: this.state.targetContact[0].firstName,
       lastName: this.state.targetContact[0].lastName,
@@ -190,7 +221,19 @@ class App extends Component {
       phone: this.state.targetContact[0].phone,
       cell: this.state.targetContact[0].cell,
     });
+    
+    break;
+
+  default:
+    break;
+}
+
+
+
+    e.preventDefault();
+
     this.toggleDisplay("displayEditContact");
+
   };
 
   submitEdit = (e, i) => {
@@ -208,12 +251,16 @@ class App extends Component {
   };
 
   handleDeleteSelectedContact = (e) => {
-    for (let i = 0; i < this.state.checkbox.length; i++) {
+let arr = [];
+    for (let i = 0; i <= this.state.checkbox.length; i++) {
       if (this.state.checkbox[i] === true) {
-        this.deleteContact(e, i);
+arr=[...arr,i];
+ this.deleteContact(e, arr);
      this.reduceCheckboxArray(i);
+
       }
     }
+  
   };
 
 reduceCheckboxArray=(index)=>{
@@ -359,17 +406,22 @@ reduceCheckboxArray=(index)=>{
       : this.setState({ emptyContactDisplay: { display: "none" } });
   };
 
-  createArrayFalse = () => {
-    let arr = this.state.checkbox;
-    arr = [...arr, false];
-    this.setState({
-      checkbox: arr,
-    });
-  };
+ 
 
   handleCheckboxChange = (index, e) => {
+//     let arr = this.state.checkbox;
+// let filtered1 = arr.filter((contacts)=>contacts.id === index );
+// let filtered2 = arr.filter((contacts)=>contacts.id !== index );
+// filtered1[0].checkbox =e.target.checked;
+// filtered2 = [...filtered2,filtered1];
+//     this.setState({
+//       checkbox: filtered2,
+    // });
+  };
+
+ createArrayFalse = (index) => {
     let arr = this.state.checkbox;
-    arr[index] = e.target.checked;
+    arr = [...arr,{checkbox:false,id:index}];
     this.setState({
       checkbox: arr,
     });
@@ -378,26 +430,16 @@ reduceCheckboxArray=(index)=>{
   createArrayTrue = () => {
     let arr = this.state.checkbox;
     for (let i = 0; i < this.state.checkbox.length; i++) {
-      arr[i] = !arr[i];
+      arr[i].checkbox = !arr[i].checkbox;
     }
     this.setState({
       checkbox: arr,
     });
   };
 
-  render() {
-    this.props.contacts.sort(function (a, b) {
-      var nameA = a.firstName.toUpperCase();
-      var nameB = b.firstName.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
 
+  render() {
+// console.log(this.state.checkbox)
     return (
       <div className="contact-body">
         <div className="contact-header">
@@ -407,23 +449,15 @@ reduceCheckboxArray=(index)=>{
         <div className="container-fluid text-center pt-10">
           <div class="">
             <div className="allcontacts pt-10">
-              <div className="all-contactheading">
-                <h5 className="text-center pt-3">All Contacts</h5>
-              </div>
-              <ul>
-                {this.props.contacts.map((contact, index) => (
                   <AllContacts
-                    contact={contact}
-                    index={index}
+                     contacts={[...this.props.contacts]}
                     expandContact={this.expandContact}
                     activeClick={this.state.activeClick}
                     id={this.state.index}
-                  />
-                ))}
+                  />      
                 <div style={this.state.emptyContactDisplay}>
                   contact is empty
                 </div>
-              </ul>
             </div>
             <div className="contact-form">
               <div className="searchbar">
@@ -486,7 +520,7 @@ reduceCheckboxArray=(index)=>{
                     activate={this.state.activate}
                     checkbox={this.state.checkbox}
                     handleCheckboxChange={this.handleCheckboxChange}
-                    contacts={this.props.contacts}
+                    contacts={[...this.props.contacts]}
                     reduceCheckboxArray={this.reduceCheckboxArray}
                   />
                 </div>
@@ -513,15 +547,13 @@ reduceCheckboxArray=(index)=>{
                   handleDeleteSelectedContact={this.handleDeleteSelectedContact}
                 />
               </div>
-              <div className="recent-contact-heading">
-                <h5 className="text-center p-2">Recently Added Contacts</h5>
-              </div>
+            
               <div>
                 <RecentlyAdded
                   expandContact={this.expandContact}
                   activeClick={this.state.activeClick}
                   id={this.state.index}
-                  contacts={this.props.contacts}
+                  contacts={[...this.props.contacts]}
                 />
 
                 <div style={this.state.emptyContactDisplay}>
@@ -560,7 +592,8 @@ const mapDispatchToProps = (dispatch) => {
       pictureL,
       pictureM,
       pictureT,
-      isChecked
+      isChecked,
+id
     ) =>
       dispatch(
         contactAction.createContact(
@@ -579,7 +612,8 @@ const mapDispatchToProps = (dispatch) => {
           pictureL,
           pictureM,
           pictureT,
-          isChecked
+          isChecked,
+id
         )
       ),
 
