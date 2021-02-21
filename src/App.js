@@ -13,6 +13,8 @@ import EditContacts from './components/editsContacts';
 import RecentlyAdded from './components/recentlyAdded';
 import contacticont from './images/contacticont.png';
 import Menu from './components/menu';
+import Example from './components/example';
+import { useMediaQuery } from 'react-responsive'
 
 class App extends Component {
 	constructor(props) {
@@ -39,6 +41,8 @@ class App extends Component {
 			isChecked: false,
 			checkin: true,
 			outline: {},
+     displayAllContacts:{display:"none"},
+     matches:window.matchMedia("(min-width: 900x)").matches,
 			checkbox: this.props.contacts.map((contact) => ({
 				checkbox: contact.isChecked,
 				id: contact.id,
@@ -60,6 +64,9 @@ class App extends Component {
 			targetContact: this.props.contacts
 		};
 	}
+
+
+
 
 	async componentDidMount() {
 		for (let i = 0; i < 30; i++) {
@@ -106,6 +113,9 @@ class App extends Component {
 			);
 			this.createArray();
 		}
+ const handler =( e )=>this.setState({ matches: e.matches});
+    window.matchMedia("(min-width: 900px)").addEventListener('change',handler);
+
 	}
 
 	handleChange = (e) => {
@@ -188,7 +198,8 @@ class App extends Component {
 					displayDeletecontacts: { display: 'none' },
 					displayDeleteBtn2: { display: 'none' },
 					displayDeleteBtn1: { display: 'inline-block' },
-					displayEditcontacts: { display: 'none' }
+					displayEditcontacts: { display: 'none' },
+//  displayAllContacts:{display:"none"},
 				});
 				break;
 			case 'displayCreateNewContact':
@@ -203,7 +214,8 @@ class App extends Component {
 					searchInput: '',
 					displayEditBtn: { display: 'none' },
 					displayAddBtn: { display: 'block' },
-					pictureL: contacticont
+					pictureL: contacticont,
+//  displayAllContacts:{display:"none"},
 				});
 
 				break;
@@ -216,7 +228,8 @@ class App extends Component {
 					displayDeletecontacts: { display: 'none' },
 					displayDeleteBtn2: { display: 'none' },
 					displayDeleteBtn1: { display: 'inline-block' },
-					displayEditcontacts: { display: 'none' }
+					displayEditcontacts: { display: 'none' },
+//  displayAllContacts:{display:"none"},
 				});
 
 				break;
@@ -228,7 +241,8 @@ class App extends Component {
 					displayList: { display: 'none' },
 					displayForm: { display: 'block' },
 					displayDeletecontacts: { display: 'none' },
-					displayEditcontacts: { display: 'none' }
+					displayEditcontacts: { display: 'none' },
+//  displayAllContacts:{display:"none"},
 				});
 				break;
 
@@ -261,7 +275,9 @@ class App extends Component {
 					displayDeleteBtn1: { display: 'none' },
 					displayEditcontacts: { display: 'none' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: ''
+					searchInput: '',
+ displayAllContacts:{display:"none"},
+
 				});
 				break;
 
@@ -274,7 +290,9 @@ class App extends Component {
 					displayDeleteBtn1: { display: 'inline-block' },
 					displayDeleteBtn2: { display: 'none' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: ''
+					searchInput: '',
+ displayAllContacts:{display:"none"},
+
 				});
 				break;
 
@@ -441,11 +459,19 @@ class App extends Component {
 				<div className="contact-header">
 					{/* <h1 className="text-center">Contacts Manager</h1> */}
 				</div>
-<Menu  />
+<Menu  
+               	toggleDisplay={this.toggleDisplay}
+									displayDeleteBtn1={this.state.displayDeleteBtn1}
+									displayDeleteBtn2={this.state.displayDeleteBtn2}
+									toggleCheckbox={this.toggleCheckbox}
+									handleDeleteSelectedContact={this.handleDeleteSelectedContact}
+									handleDeleteSelectedCheckbox={this.handleDeleteSelectedCheckbox}
+									reduceCheckboxArray={this.reduceCheckboxArray}
+									createArray={this.createArray}/>
 				<div className="container-fluid text-center pt-10">
 
 					<div className="contact-container">
-						<div className="allcontacts pt-10">
+						<div className="allcontacts pt-10" style={this.state.displayAllContacts}>
 							<AllContacts
 								contacts={[ ...this.props.contacts ]}
 								expandContact={this.expandContact}
@@ -456,7 +482,7 @@ class App extends Component {
 						</div>
 						<div className="contact-form">
 
-							<div className="window-searchbar">
+							<div className="desktop-searchbar">
 								<SearchBar
 									expandContact={this.expandContact}
 									filteredSearch={this.state.filteredSearch}
@@ -465,6 +491,13 @@ class App extends Component {
 									searchInput={this.state.searchInput}
 								/>
 							</div>
+
+<Example>
+ <div >
+      {this.state.matches && (<h1>Big Screen</h1>)}
+      {!this.state.matches && (<h3>Small Screen</h3>)}
+      </div>
+</Example>
 
 							<AddContact
 								title={this.state.title}
