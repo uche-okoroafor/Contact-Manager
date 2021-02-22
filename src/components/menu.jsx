@@ -14,7 +14,7 @@ function Menu(props) {
 		if (menuBarState) {
 			setDisplayMenu({ display: 'block' });
 			setTimeout(() => {
-				setMenuBar('menu');
+				setMenuBar('menu-on');
 			}, 10);
 			return setMenuBarState(!menuBarState);
 		}
@@ -49,7 +49,7 @@ setMenuBarState(!menuBarState);
 				</div>
 
 				<h6 className="text-center pt-3" style={displayMenuIcons}>
-					All Contacts
+				Contacts
 				</h6>
 				{/* <div className="search-icon"  /> */}
 				<div className="Searchbar"  style={displayMenuIcon}>
