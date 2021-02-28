@@ -45,7 +45,7 @@ function DeleteContacts(props) {
 		});
 
 		const mappedList = props.checkbox.map((contact) => (
-			<li key={contact.id} className={'list-group-item clearfix displaylist checking'}>
+			<li key={contact.id} className={'list-group-item  clearfix displaylist checking'}>
 				{' '}
 				<img src={imgSrc(contact)} alt="icon" className="thumbnail ml-2" /> {contact.firstName}{' '}
 				{contact.lastName}
@@ -59,7 +59,6 @@ function DeleteContacts(props) {
 					type="checkbox"
 					className="checkbox"
 					name="checkbox"
-					value={console.log(isChecked(contact.id), 'idddd')}
 					checked={isChecked(contact.id)}
 					onChange={(e) => props.handleCheckboxChange(contact.id, e)}
 				/>
@@ -71,8 +70,6 @@ function DeleteContacts(props) {
 
 	return (
 		<React.Fragment>
-			{console.log(props.checkbox, 'props')}
-			{/* {console.log(props.contacts.length,'contacts')} */}
 			<ul>{allCountacts()}</ul>
 		</React.Fragment>
 	);

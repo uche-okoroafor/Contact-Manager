@@ -17,6 +17,7 @@ export const createContact = (
         pictureM,
         pictureT,
         isChecked,
+id,
        ) => {
   return {
     type: actionTypes.CREATE_NEW_CONTACT,
@@ -36,6 +37,7 @@ export const createContact = (
         pictureM:pictureM,
         pictureT:pictureT,
         isChecked:isChecked,
+id:id,
         
   };
 };

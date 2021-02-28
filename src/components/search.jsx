@@ -6,13 +6,12 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchInput: this.searchImport(),
+      searchInput: '',
       filteredSearch: [],
+
     };
   }
 
-
-searchImport=()=>this.props.searchInput;
 
 
 
@@ -38,8 +37,10 @@ searchImport=()=>this.props.searchInput;
         );
       }),
     });
+
     this.props.toggleDisplay("searchdisplay");
-    e.preventDefault();
+setTimeout(()=>this.props.searchList(this.state.filteredSearch),10)
+
   
   };
 
@@ -69,28 +70,30 @@ return contacticont;
             this.props.toggleDisplay("displayContactDetails");
           }}
         >
-         <img src={this.imgSrc(data.pictureT)}  className="thumbnail" alt="icon"/><div className='imgframe'></div> {data.firstName} {data.lastName}
+         <img src={this.imgSrc(data.pictureT)}  className="thumbnail" alt="icon"/><div className='searchimgframe'></div> {data.firstName} {data.lastName}
         </li>
       </div>
     );
   }
 
   render() {
+
     return (
-      <div>
+<React.Fragment>
         <input
           type="text"
           value={this.state.searchInput}
           onChange={this.handleChange}
-          placeholder="SearchContacts..."
+          placeholder={"Search Contacts" }
           className="form-control"
         />
-        <ul className="mx-auto searchlist">
-          {this.state.filteredSearch.map((contact, i) =>
-            this.searchReturn(contact, i)
-          )}
-        </ul>
-      </div>
+
+  <ul className="mx-auto searchlist desktop-searchbar ">
+          {this.state.filteredSearch.map((contact) =>
+            this.searchReturn(contact, contact.id)
+          )
+  }  </ul>
+</React.Fragment>
     );
   }
 }

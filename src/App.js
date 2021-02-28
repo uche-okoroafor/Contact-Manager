@@ -14,7 +14,6 @@ import RecentlyAdded from './components/recentlyAdded';
 import contacticont from './images/contacticont.png';
 import Menu from './components/menu';
 
-
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -36,12 +35,13 @@ class App extends Component {
 			pictureT: '',
 			index: '',
 			id: uuid(),
-			searchInput: '',
+			filteredSearch: [],
 			isChecked: false,
 			checkin: true,
 			outline: {},
-    
-     matches:window.matchMedia("(min-width:992px)").matches,
+ searchInput: '',
+			isMobileTablet: window.matchMedia('(min-width:992px)').matches,
+			isMobile: window.matchMedia('(min-width:768px)').matches,
 			checkbox: this.props.contacts.map((contact) => ({
 				checkbox: contact.isChecked,
 				id: contact.id,
@@ -60,14 +60,11 @@ class App extends Component {
 			displayDeleteBtn1: { display: 'inline-block' },
 			displayDeleteBtn2: { display: 'none' },
 			displayEditcontacts: { display: 'none' },
-     displayMobileRecentContact: { display: 'none' },
- displayAllContacts:{display:"block"},
+			displayMobileRecentContact: { display: 'none' },
+			displayAllContacts: { display: 'block' },
 			targetContact: this.props.contacts
 		};
 	}
-
-
-
 
 	async componentDidMount() {
 		for (let i = 0; i < 30; i++) {
@@ -114,9 +111,15 @@ class App extends Component {
 			);
 			this.createArray();
 		}
- const handler =( e )=>this.setState({ matches: e.matches});
-    window.matchMedia("(min-width: 992px)").addEventListener('change',handler);
+		// const handlerDesktop = (e) => this.setState({ isDesktop: e.isDesktop });
+		// window.matchMedia('(max-width:992px)').addEventListener('change', handlerDesktop);
 
+		const handlerMobile = (e) => this.setState({ isMobile: e.isMobile });
+		window.matchMedia('(min-width: 768px)').addEventListener('change', handlerMobile);
+
+		//  const handler =( e )=>this.setState({ isMobileTablet: e.isMobileTablet});
+		//     window.matchMedia("(min-width: 992px)").addEventListener('change',handler);
+		
 	}
 
 	handleChange = (e) => {
@@ -199,13 +202,23 @@ class App extends Component {
 					displayDeletecontacts: { display: 'none' },
 					displayDeleteBtn2: { display: 'none' },
 					displayDeleteBtn1: { display: 'inline-block' },
-					displayEditcontacts: { display: 'none' },
+					displayEditcontacts: { display: 'none' }
 				});
-     !this.state.matches &&   this.setState({
- displayMobileRecentContact:{ display: 'none' },
-displayAllContacts:{display:"none"},
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 
+				// !this.state.isDesktop &&
+				// 					this.setState({
+				// 						displayMobileRecentContact: { display: 'block' },
+				// 					});
+				// !this.state.isDesktop? this.setState({
+				// 						displayAllContacts: { display: 'block' }
+				// 					}):this.setState({
+				// 						displayAllContacts: { display: 'none' }
+				// 					});
 
 				break;
 			case 'displayCreateNewContact':
@@ -221,11 +234,13 @@ displayAllContacts:{display:"none"},
 					displayEditBtn: { display: 'none' },
 					displayAddBtn: { display: 'block' },
 					pictureL: contacticont,
+					displayMobileRecentContact: { display: 'none' }
 				});
-     !this.state.matches &&   this.setState({
-displayAllContacts:{display:"none"},
-displayMobileRecentContact:{ display: 'none' },
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 				break;
 
 			case 'searchdisplay':
@@ -236,12 +251,13 @@ displayMobileRecentContact:{ display: 'none' },
 					displayDeletecontacts: { display: 'none' },
 					displayDeleteBtn2: { display: 'none' },
 					displayDeleteBtn1: { display: 'inline-block' },
-					displayEditcontacts: { display: 'none' },
+					displayEditcontacts: { display: 'none' }
 				});
-     !this.state.matches &&   this.setState({
-displayAllContacts:{display:"none"},
-displayMobileRecentContact:{ display: 'none' },
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 				break;
 
 			case 'displayEditContact':
@@ -251,13 +267,14 @@ displayMobileRecentContact:{ display: 'none' },
 					displayDetails: { display: 'none' },
 					displayForm: { display: 'block' },
 					displayDeletecontacts: { display: 'none' },
-					displayEditcontacts: { display: 'none' },
+					displayEditcontacts: { display: 'none' }
 				});
 
-     !this.state.matches &&   this.setState({
-displayAllContacts:{display:"none"},
-displayMobileRecentContact:{ display: 'none' },
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 				break;
 
 			case 'buttonDisplay2':
@@ -289,13 +306,13 @@ displayMobileRecentContact:{ display: 'none' },
 					displayDeleteBtn1: { display: 'none' },
 					displayEditcontacts: { display: 'none' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: '',
-
+					searchInput: ''
 				});
-     !this.state.matches &&   this.setState({
-displayAllContacts:{display:"none"},
-displayMobileRecentContact:{ display: 'none' },
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 				break;
 
 			case 'displayAll4edit':
@@ -307,40 +324,48 @@ displayMobileRecentContact:{ display: 'none' },
 					displayDeleteBtn1: { display: 'inline-block' },
 					displayDeleteBtn2: { display: 'none' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: '',
+					searchInput: ''
 				});
-     !this.state.matches &&   this.setState({
-displayAllContacts:{display:"none"},
-displayMobileRecentContact:{ display: 'none' },
-
-});
+				!this.state.isMobile &&
+					this.setState({
+						displayMobileRecentContact: { display: 'none' },
+						displayAllContacts: { display: 'none' }
+					});
 
 				break;
 
-	case 'displayMobileRecentContact':
+			case 'displayMobileRecentContact':
 				this.setState({
 					displayDeletecontacts: { display: 'none' },
 					displayEditcontacts: { display: 'none' },
 					displayDetails: { display: 'none' },
 					displayForm: { display: 'none' },
-		      displayMobileRecentContact:{ display: 'block' },
+					displayMobileRecentContact: { display: 'block' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: '',
-          displayAllContacts:{display:"none"},
-
+					searchInput: ''
 				});
+				!this.state.isMobile &&
+					this.setState({
+						displayAllContacts: { display: 'none' }
+					});
 				break;
 
-case 'displayAllContacts':
+			case 'displayAllContacts':
 				this.setState({
-          displayAllContacts:{display:"block"},
-	displayDeletecontacts: { display: 'none' },
+					displayAllContacts: { display: 'block' },
+					displayDeletecontacts: { display: 'none' },
 					displayEditcontacts: { display: 'none' },
 					displayDetails: { display: 'none' },
 					displayForm: { display: 'none' },
-		      displayMobileRecentContact:{ display: 'none' },
+					displayMobileRecentContact: { display: 'none' },
 					displaySearchReturn: { display: 'none' },
-					searchInput: '',
+					searchInput: ''
+				});
+				break;
+
+			case 'displayAllContactsBigScreen':
+				this.setState({
+					displayAllContacts: { display: 'block' }
 				});
 				break;
 
@@ -500,24 +525,59 @@ case 'displayAllContacts':
 		});
 	};
 
-	render() {
+imgSrc=(data)=>{
+if(data[0] === 'h'){
 
+return data;
+}
+return contacticont;
+}
+
+	searchReturn = (data, index) => {
+		return (
+			<div className="search-result-list" style={this.state.displaySearchReturn}>
+				<li
+					key={index}
+					className="list-group-item clearfix  displaylist"
+					onClick={(e) => {
+						this.setState({ searchInput: '' });
+						this.expandContact(index, e);
+						this.toggleDisplay('displayContactDetails');
+					}}
+				>
+					<img src={this.imgSrc(data.pictureT)} className="thumbnail" alt="icon" />
+					<div className="searchimgframe" /> <span>{data.firstName} {data.lastName}</span>
+				</li>
+			</div>
+		);
+	};
+
+	searchList=(data)=>{
+		this.setState({
+			filteredSearch: data
+		});
+	};
+
+
+
+	render() {
 		return (
 			<div className="contact-body">
-				<div className="contact-header">
-					{/* <h1 className="text-center">Contacts Manager</h1> */}
-				</div>
-<Menu  
-               	toggleDisplay={this.toggleDisplay}
-									displayDeleteBtn1={this.state.displayDeleteBtn1}
-									displayDeleteBtn2={this.state.displayDeleteBtn2}
-									toggleCheckbox={this.toggleCheckbox}
-									handleDeleteSelectedContact={this.handleDeleteSelectedContact}
-									handleDeleteSelectedCheckbox={this.handleDeleteSelectedCheckbox}
-									reduceCheckboxArray={this.reduceCheckboxArray}
-									createArray={this.createArray}/>
+				<div className="contact-header">{/* <h1 className="text-center">Contacts Manager</h1> */} </div>
+				<Menu
+					toggleDisplay={this.toggleDisplay}
+					displayDeleteBtn1={this.state.displayDeleteBtn1}
+					displayDeleteBtn2={this.state.displayDeleteBtn2}
+					toggleCheckbox={this.toggleCheckbox}
+					handleDeleteSelectedContact={this.handleDeleteSelectedContact}
+					handleDeleteSelectedCheckbox={this.handleDeleteSelectedCheckbox}
+					reduceCheckboxArray={this.reduceCheckboxArray}
+					createArray={this.createArray}
+					expandContact={this.expandContact}
+					displaySearchReturn={this.state.displaySearchReturn}
+					searchList={this.searchList}
+				/>
 				<div className="container-fluid text-center pt-10">
-
 					<div className="contact-container">
 						<div className="allcontacts pt-10" style={this.state.displayAllContacts}>
 							<AllContacts
@@ -525,27 +585,27 @@ case 'displayAllContacts':
 								expandContact={this.expandContact}
 								activeClick={this.state.activeClick}
 								id={this.state.index}
- emptyContactDisplay={this.state.emptyContactDisplay}
+								emptyContactDisplay={this.state.emptyContactDisplay}
 							/>
 							<div style={this.state.emptyContactDisplay}>contact is empty</div>
 						</div>
 						<div className="contact-form">
-
 							<div className="desktop-searchbar">
 								<SearchBar
 									expandContact={this.expandContact}
-									filteredSearch={this.state.filteredSearch}
 									displaySearchReturn={this.state.displaySearchReturn}
 									toggleDisplay={this.toggleDisplay}
-									searchInput={this.state.searchInput}
+									searchList={this.searchList}
 								/>
+
 							</div>
+					<div className=' mobile-searchbar'>
+								<ul className="mx-auto searchlist  " >
 
- {/* <div >
-      {this.state.matches && (<h1>Big Screen</h1>)}
-      {!this.state.matches && (<h3>Small Screen</h3>)}
-      </div> */}
+          {this.state.filteredSearch.map((contact)=>this.searchReturn(contact, contact.id))}
 
+        </ul>
+							</div>	
 
 							<AddContact
 								title={this.state.title}
@@ -575,19 +635,18 @@ case 'displayAllContacts':
 								createArray={this.createArray}
 							/>
 
-						
-								{this.state.targetContact.map((contact) => (
-									<ContactDetails
-										data={contact}
-										index={this.state.index}
-										displayDetails={this.state.displayDetails}
-										editContact={this.editContact}
-										deleteContact={this.deleteContact}
-										expandContact={this.expandContact}
-										toggleDisplay={this.toggleDisplay}
-									/>
-								))}
-				
+							{this.state.targetContact.map((contact) => (
+								<ContactDetails
+									data={contact}
+									index={this.state.index}
+									displayDetails={this.state.displayDetails}
+									editContact={this.editContact}
+									deleteContact={this.deleteContact}
+									expandContact={this.expandContact}
+									toggleDisplay={this.toggleDisplay}
+								/>
+							))}
+
 							<div className="deletecontacts" style={this.state.displayDeletecontacts}>
 								<DeleteContacts
 									deleteContact={this.deleteContact}
@@ -603,14 +662,14 @@ case 'displayAllContacts':
 							<div className="Editcontacts" style={this.state.displayEditcontacts}>
 								<EditContacts editContact={this.editContact} toggleDisplay={this.toggleDisplay} />
 							</div>
-<div style={this.state.displayMobileRecentContact}>
-	<RecentlyAdded
+							<div style={this.state.displayMobileRecentContact}>
+								<RecentlyAdded
 									expandContact={this.expandContact}
 									activeClick={this.state.activeClick}
 									id={this.state.index}
 									contacts={[ ...this.props.contacts ]}
 								/>
-</div>
+							</div>
 						</div>
 
 						<div className="optionsbar">
@@ -633,9 +692,8 @@ case 'displayAllContacts':
 									activeClick={this.state.activeClick}
 									id={this.state.index}
 									contacts={[ ...this.props.contacts ]}
-                  emptyContactDisplay={this.state.emptyContactDisplay}
+									emptyContactDisplay={this.state.emptyContactDisplay}
 								/>
-
 							</div>
 						</div>
 					</div>

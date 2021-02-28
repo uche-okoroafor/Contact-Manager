@@ -8,7 +8,7 @@ function RecentlyAdded(props) {
 
 
   const backgroundActive = {
-    backgroundColor: "rgba(76, 153, 73, 0.918)",
+    backgroundColor: "#17a2b8",
     marginTop: "15px",
     boxShadow: "0px 0px 5px 5px rgba(184,226,242,1)",
     color: "#ffffff",
@@ -21,7 +21,7 @@ function RecentlyAdded(props) {
 const [sortDisplay1,setSortDisplay1] = useState( {display:'block'} )
 const [sortDisplay2,setSortDisplay2] = useState( {display:'none'} )
 const [toggle,setToggle]=useState(true);
-const[imgUrl,setImgUrl]=useState("https://image.flaticon.com/icons/png/512/31/31283.png")
+const[imgUrl,setImgUrl]=useState(<i class="fas fa-sort-down"></i>)
 
 
 
@@ -31,13 +31,13 @@ if(toggle)
 {
 setSortDisplay1({display:'none'});
 setToggle(!toggle);
-setImgUrl("https://image.flaticon.com/icons/png/512/31/31232.png")
+setImgUrl(<i class="fas fa-sort-up"></i>)
 return setSortDisplay2({display:'block'});
 }
 
 setToggle(!toggle);
 setSortDisplay1({display:'block'});
-setImgUrl("https://image.flaticon.com/icons/png/512/31/31283.png")
+setImgUrl(<i class="fas fa-sort-down"></i>)
 return setSortDisplay2(
 {display:'none'}
 );
@@ -65,32 +65,32 @@ return setSortDisplay2(
         {contact.firstName} {contact.lastName}
       </li>
     ));
-    return list;
+    return list.reverse();
   }
 
 
 
 
   function recentContact2() {
-    const list = props.contacts.map((contact, index) => (
+    const list = props.contacts.map((contact) => (
       <li
-        key={index}
-        style={activeClick(index, props.id)}
+        key={contact.id}
+        style={activeClick(contact.id, props.id)}
         className={"list-group-item clearfix displaylist"}
         onClick={(e) => {
-          props.expandContact(index, e);
+          props.expandContact(contact.id, e);
         }}
       >
         <img
           src={imgSrc(contact)}
-          className={activeThumbnail(index, props.id)}
+          className={activeThumbnail(contact.id, props.id)}
           alt="contacticont"
         />
-        <div className={displayDiv(index, props.id)} ></div>{" "}
+        <div className={displayDiv(contact.id, props.id)} ></div>{" "}
         {contact.firstName} {contact.lastName}
       </li>
     ));
-    return list.reverse();
+    return list;
   }
 
   function activeClick(index, id) {
@@ -125,12 +125,15 @@ return setSortDisplay2(
   return (
     <React.Fragment>
   <div className="recent-contact-heading">
-            <div></div>    <h5 className="text-center p-2">Recently Added Contacts</h5>
-<img src={imgUrl}  onClick={sortContacts}   alt='sorticon'  />
+            <div></div><h5 className="text-center">Recent Contacts</h5><span onClick={sortContacts}>{imgUrl}</span>
               </div>
+								
+
       <div className="recentlyadded">
         <ul style={sortDisplay1}>{recentContact()}</ul>
  <ul style={sortDisplay2}>{recentContact2()}</ul>
+<div style={props.emptyContactDisplay}>contact is empty</div>
+
       </div>
     </React.Fragment>
   );

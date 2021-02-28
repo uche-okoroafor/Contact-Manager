@@ -5,23 +5,39 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      img: "",
     };
   }
+
+
+ imgSrc=(contact)=>{
+if(contact[0] === 'h'){
+
+return contact;
+}
+return contacticont;
+}
+
+
+comingSoon=()=>{
+
+alert('Coming Soon,Going FullStack to Get it Running')
+
+}
+
 
   render() {
     return (
       <div style={this.props.displayForm} className="addContact">
         <h5>Add Contact</h5>
-        <form onSubmit={this.props.handleSubmit}>
+        <form onSubmit={(e)=>{this.props.handleSubmit(e); this.props.createArray()}}>
           <div className="imgcontainner">
-            <img src={contacticont} alt="addimg" />
+            <img src={this.imgSrc(this.props.pictureL)} alt="addimg" />
             <input
               type="file"
               id="img"
               name="img"
-              accept="image/*"
-              value={this.state.img}
+              accept="image/*"  
+onClick={this.comingSoon}         
             ></input>
           </div>
           <div className="pl-lg-4">
@@ -236,6 +252,8 @@ class Form extends Component {
                   />
                 </div>
               </div>
+<div className="pt4 form-buttons pb-5">
+
               <input
                 type="submit"
                 className="form-control btn-success "
@@ -247,154 +265,19 @@ class Form extends Component {
                 className="form-control btn-success m-2 "
                 style={this.props.displayEditBtn}
                 value="Save Contact"
-                onClick={(e) => this.props.submitEdit(e)}
+                onClick={(e) => {this.props.submitEdit(e);this.props.createArray()}}
               />
               <input
                 type="button"
-                className="form-control btn-warning m-2 "
+                className="form-control btn-warning m-2 mt-3 "
                 style={this.props.displayEditBtn}
                 value="Cancel Edit"
                 onClick={(e) => this.props.cancelEdit(e)}
               />
+ </div>
             </div>
           </div>
-          {/* <input
-            type="text"
-            name="title"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.title}
-            placeholder="Title"
-          />
-          <input
-            type="text"
-            name="firstName"
-            onChange={this.props.handleChange}
-            className="form-control"
-            value={this.props.firstName}
-            style={this.props.outline}
-            placeholder="Name"
-          />
-          <span style={this.props.display}>Name required</span>
-          <input
-            type="text"
-            name="lastName"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.lastName}
-            placeholder="Last name"
-          />
-          <input
-            type="text"
-            name="phone"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.phone}
-            style={this.props.outline}
-            placeholder="phone"
-          />
-          <span style={this.props.display}>Phone number required</span>
-          <input
-            type="text"
-            name="cell"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.cell}
-            placeholder="cell"
-          />
-          <input
-            type="text"
-            name="streetNumber"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.streetNumber}
-            placeholder="streetNumber"
-          />{" "}
-          <input
-            type="text"
-            name="streetName"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.streetName}
-            placeholder="streetName"
-          />{" "}
-          <input
-            type="text"
-            name="city"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.city}
-            placeholder="city"
-          />{" "}
-          <input
-            type="text"
-            name="state"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.state}
-            placeholder="state"
-          />{" "}
-          <input
-            type="text"
-            name="country"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.country}
-            placeholder="country"
-          />
-          <input
-            type="text"
-            name="postcode"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.postcode}
-            placeholder="postcode"
-          />
-          <input
-            type="text"
-            name="email"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.email}
-            placeholder="contact@example.com"
-          />{" "}
-          <input
-            type="text"
-            name="pictureL"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.pictureL}
-            placeholder="pictureL"
-          />
-          <input
-            type="text"
-            name="pictureM"
-            onChange={this.props.handleChange}
-            className="form-control "
-            value={this.props.pictureM}
-            placeholder="pictureM"
-          />
-          <br />
-          <input
-            type="submit"
-            className="form-control btn-success "
-            value="Add Contact"
-            style={this.props.displayAddBtn}
-          />
-          <input
-            type="button"
-            className="form-control btn-success m-2 "
-            style={this.props.displayEditBtn}
-            value="Save Contact"
-            onClick={(e) => this.props.submitEdit(e)}
-          />
-          <input
-            type="button"
-            className="form-control btn-warning m-2 "
-            style={this.props.displayEditBtn}
-            value="Cancel Edit"
-            onClick={(e) => this.props.cancelEdit(e)}
-          /> */}
+        
         </form>
       </div>
     );
