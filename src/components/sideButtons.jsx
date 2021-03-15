@@ -1,4 +1,4 @@
-import React,{useState,useEffect}  from "react";
+import React,{useState}  from "react";
 import { useMediaQuery } from 'react-responsive'
 
 function SideButtons(props) {
@@ -10,31 +10,23 @@ const isTablet = useMediaQuery({ query: '(max-width: 768px)' })
 const isTabletOrMobile = useMediaQuery({ query: '(min-width: 992px)' })
 const[selectState,setSelectState]=useState("Select All Contacts");
 const [ischecked,setIschecked]=useState(false);
-const [displayBtn,setDisplayBtn]=useState({display:'none'});
 
-// const displayBtn= resizeWindow? {display:'none'}:{display:'block'};
 
 const handleWindowResize =()=>{
-// resizeWindow?setDisplayBtn({display:'block'}):setDisplayBtn({display:'none'})
 
 
 
 if(isTabletOrMobile) { 
-// setDisplayBtn({display:'block'});
 
 return  {display:'none'}
 }
 
-//  setDisplayBtn({display:'none'})
 
 return {display:'block'};
 
 }
 
 
-// useEffect(
-// ()=>handleWindowResize(),
-// [window.innerWidth < 480]);
 
 const handleSelectState=()=>{
 if( ischecked === true)

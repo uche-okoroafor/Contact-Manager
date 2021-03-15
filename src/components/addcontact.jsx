@@ -20,7 +20,7 @@ return contacticont;
 
 comingSoon=()=>{
 
-alert('Coming Soon,Going FullStack to Get it Running')
+alert('Not Avaliable at the Moment')
 
 }
 

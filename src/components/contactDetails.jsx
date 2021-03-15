@@ -24,7 +24,7 @@ return	text?text:'Not Provided'
 
 	return (
 		<React.Fragment>
-			<div className="container-fluid mt--7 contact-details" style={props.displayDetails}>
+		
 				<div className="row">
 					<div className="col-xl-12 order-xl-2 mb-5 mb-xl-0  div2">
 						<div className="card card-profile shadow">
@@ -58,24 +58,24 @@ return	text?text:'Not Provided'
 										{props.data.title} {props.data.firstName} {props.data.lastName}
 									</h3>
 									<div className="h5 font-weight-300">
-										<i class="fas fa-phone-square-alt" /> {props.data.phone}
+										<i className="fas fa-phone-square-alt" /> {props.data.phone}
 									</div>
 									<div className="h5 font-weight-300">
-										<i class="fas fa-mobile-alt" /> {props.data.cell}{' '}
+										<i className="fas fa-mobile-alt" /> {props.data.cell}{' '}
 									</div>
 
 									<div className="h5 font-weight-300">
-										<i class="fas fa-at" /> {props.data.email}{' '}
+										<i className="fas fa-at" /> {props.data.email}{' '}
 									</div>
 
 									<hr className="my-4" />
 									<div className="h5 font-weight-300">
-										<i class="fas fa-street-view" /> {textAreaState(props.data.streetNumber) + ','}{' '}
+										<i className="fas fa-street-view" /> {textAreaState(props.data.streetNumber) + ','}{' '}
 										{ textAreaState(props.data.streetName)}
 									</div>
 
 									<div className="h5 font-weight-300">
-										<i class="fas fa-map-marker-alt" /> { textAreaState(props.data.city) + ','}{' '}
+										<i className="fas fa-map-marker-alt" /> { textAreaState(props.data.city) + ','}{' '}
 										{textAreaState(props.data.state) + ','} {textAreaState(props.data.country)}
 									</div>
 									<button
@@ -96,7 +96,7 @@ return	text?text:'Not Provided'
 						</div>
 					</div>
 				</div>
-			</div>
+		
 		</React.Fragment>
 	);
 }

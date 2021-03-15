@@ -48,22 +48,14 @@ setMenuBarState(!menuBarState);
 				<div className="menu-bar">
 					{' '}
 					<i className="fas fa-ellipsis-v  " onClick={handleMenuBar} style={displayMenuIcons} />{' '}
-					<i class="fas fa-chevron-left" onClick={handleSearchIcon} style={displayMenuIcon} />
+					<i className="fas fa-chevron-left" onClick={handleSearchIcon} style={displayMenuIcon} />
 				</div>
 
 				<h6 className="text-center pt-3" style={displayMenuIcons}>
 				Contacts
 				</h6>
-				{/* <div className="search-icon"  /> */}
 				<div className="Searchbar"  style={displayMenuIcon}>
-					{/* <input
-						type="text"
-						name="searchInput"
-						  value={searchInput}
-						  onChange={(e)=>handleSearchInput(e)}
-						placeholder={'SearchContacts...'}
-						className="form-control "
-					/> */}
+				
 <SearchBar className='searchbar-menu'  
 expandContact={props.expandContact}
 displaySearchReturn={props.displaySearchReturn}
@@ -73,7 +65,7 @@ toggleDisplay={props.toggleDisplay}
 				</div>
 
 				<div className="search-icon" onClick={handleSearchIcon} style={displayMenuIcons}>
-					<i class="fas fa-search " />
+					<i className="fas fa-search " />
 
 
 				</div>

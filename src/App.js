@@ -9,7 +9,7 @@ import AddContact from './components/addcontact';
 import AllContacts from './components/allContacts';
 import SideButtons from './components/sideButtons';
 import DeleteContacts from './components/deleteContacts';
-import EditContacts from './components/editsContacts';
+import EditContacts from './components/editContacts';
 import RecentlyAdded from './components/recentlyAdded';
 import contacticont from './images/contacticont.png';
 import Menu from './components/menu';
@@ -111,14 +111,10 @@ class App extends Component {
 			);
 			this.createArray();
 		}
-		// const handlerDesktop = (e) => this.setState({ isDesktop: e.isDesktop });
-		// window.matchMedia('(max-width:992px)').addEventListener('change', handlerDesktop);
 
 		const handlerMobile = (e) => this.setState({ isMobile: e.isMobile });
 		window.matchMedia('(min-width: 768px)').addEventListener('change', handlerMobile);
 
-		//  const handler =( e )=>this.setState({ isMobileTablet: e.isMobileTablet});
-		//     window.matchMedia("(min-width: 992px)").addEventListener('change',handler);
 		
 	}
 
@@ -210,15 +206,6 @@ class App extends Component {
 						displayAllContacts: { display: 'none' }
 					});
 
-				// !this.state.isDesktop &&
-				// 					this.setState({
-				// 						displayMobileRecentContact: { display: 'block' },
-				// 					});
-				// !this.state.isDesktop? this.setState({
-				// 						displayAllContacts: { display: 'block' }
-				// 					}):this.setState({
-				// 						displayAllContacts: { display: 'none' }
-				// 					});
 
 				break;
 			case 'displayCreateNewContact':
@@ -579,7 +566,17 @@ return contacticont;
 				/>
 				<div className="container-fluid text-center pt-10">
 					<div className="contact-container">
-						<div className="allcontacts pt-10" style={this.state.displayAllContacts}>
+						<div className="allcontacts pt-10 allcontacts-mobile" style={this.state.displayAllContacts}>
+							<AllContacts
+								contacts={[ ...this.props.contacts ]}
+								expandContact={this.expandContact}
+								activeClick={this.state.activeClick}
+								id={this.state.index}
+								emptyContactDisplay={this.state.emptyContactDisplay}
+							/>
+							<div style={this.state.emptyContactDisplay}>contact is empty</div>
+						</div>
+						<div className="allcontacts pt-10 allcontacts-desktop">
 							<AllContacts
 								contacts={[ ...this.props.contacts ]}
 								expandContact={this.expandContact}
@@ -634,19 +631,18 @@ return contacticont;
 								cancelEdit={this.cancelEdit}
 								createArray={this.createArray}
 							/>
-
+	<div className="container-fluid mt--7 contact-details" style={this.state.displayDetails}>
 							{this.state.targetContact.map((contact) => (
 								<ContactDetails
 									data={contact}
 									index={this.state.index}
-									displayDetails={this.state.displayDetails}
 									editContact={this.editContact}
 									deleteContact={this.deleteContact}
 									expandContact={this.expandContact}
 									toggleDisplay={this.toggleDisplay}
 								/>
 							))}
-
+</div>
 							<div className="deletecontacts" style={this.state.displayDeletecontacts}>
 								<DeleteContacts
 									deleteContact={this.deleteContact}

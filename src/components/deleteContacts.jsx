@@ -47,8 +47,8 @@ function DeleteContacts(props) {
 		const mappedList = props.checkbox.map((contact) => (
 			<li key={contact.id} className={'list-group-item  clearfix displaylist checking'}>
 				{' '}
-				<img src={imgSrc(contact)} alt="icon" className="thumbnail ml-2" /> {contact.firstName}{' '}
-				{contact.lastName}
+				<img src={imgSrc(contact)} alt="icon" className="thumbnail ml-2" /><span> {contact.firstName}{' '}
+				 {contact.lastName}</span>
 				<button
 					onClick={(e) => deleteContact(e, contact.id)}
 					className="btn btn-danger form-control  deletebutton"

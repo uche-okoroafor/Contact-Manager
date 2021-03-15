@@ -17,20 +17,20 @@ function AllContacts(props) {
 const [sortDisplay1,setSortDisplay1] = useState( {display:'block'} )
 const [sortDisplay2,setSortDisplay2] = useState( {display:'none'} )
 const [toggle,setToggle]=useState(true);
-const[imgUrl,setImgUrl]=useState(<i class="fas fa-sort-alpha-down"></i>)
+const[imgUrl,setImgUrl]=useState(<i className="fas fa-sort-alpha-down"></i>)
 
 const sortContacts=()=>{
 if(toggle)
 {
 setSortDisplay1({display:'none'});
 setToggle(!toggle);
-setImgUrl(<i class="fas fa-sort-alpha-down-alt"></i>)
+setImgUrl(<i className="fas fa-sort-alpha-down-alt"></i>)
 return setSortDisplay2({display:'block'});
 }
 
 setToggle(!toggle);
 setSortDisplay1({display:'block'});
-setImgUrl(<i class="fas fa-sort-alpha-down"></i>)
+setImgUrl(<i className="fas fa-sort-alpha-down"></i>)
 return setSortDisplay2(
 {display:'none'}
 );
@@ -107,7 +107,7 @@ return disEmptyDiv
  return imgframe;
 
 }
-// 
+
 
 
 function imgSrc(contact){

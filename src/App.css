@@ -9,7 +9,7 @@
     --green: #2dce89;
     --teal: #11cdef;
     --cyan: #2bffc6;
-
+    --white: #fff;
     --gray: #8898aa;
     --gray-dark: #32325d;
     --light: #ced4da;
@@ -23,7 +23,7 @@
     --light: #adb5bd;
     --dark: #212529;
     --default: #172b4d;
-
+    --white: #fff;
     --neutral: #fff;
     --darker: black;
 }
@@ -79,12 +79,7 @@ li {
 .contact-body {
     overflow: hidden;
 }
-@media (max-width: 768px) {
-  .contact-body {
-    /* height: 150vh; 
-  height: calc(var(--vh, 1vh) * 100); */
-    }
-}
+
 
 .contact-header {
     position: fixed;
@@ -167,7 +162,6 @@ padding-right: 0;
 @media (max-width: 768px) {
     .div2 {
         padding-left: 0;
- /* margin-top: 110px; */
     }
 }
 
@@ -237,7 +231,7 @@ z-index: 1000;
 @media (max-width: 992px) {
     .all-contactheading {
        width: 21.5rem;
-  height: 20%;
+  height: 10%;
 margin-top: 30px;
 left: 0;
 background-color:#e6e6fa;
@@ -247,7 +241,7 @@ background-color:#e6e6fa;
 @media (max-width: 768px) {
     .all-contactheading {
        width: 100%;
-  height: 20%;
+  height: 10%;
 margin-top: 30px;
 right: 0;
 background-color:#f8f9fe;
@@ -324,31 +318,53 @@ background-color:#f8f9fe;
 }
 
 
-/* 
-#add {
+  .allcontacts-desktop{
+     display:block;
+    }
+.allcontacts-mobile{
+visibility: hidden;
+}
 
-  padding-left: 55px;
+@media (max-width: 992px) {
+   .allcontacts-desktop{
+     display: block;
+    }
+.allcontacts-mobile{
+visibility: hidden;
+}
+}
+@media (max-width: 768px) {
+   .allcontacts-desktop{
+     display: none;
+    }
+.allcontacts-mobile{
+visibility: visible;
+}
+}
 
-  border: 1px solid #f5f5f5;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png');
-  background-repeat: no-repeat;
-  background-position: left center;
-  outline: 0;
-} */
+
+
 
 .optionsbar {
     float: right;
-    /* position: fixed;
-position: relative; */
     flex-basis: 25%;
-    ;
+   
 }
+
+
 
 @media (max-width: 992px) {
     .optionsbar {
         display: none;
     }
 }
+
+.optionsbar button{
+white-space: nowrap;
+
+
+}
+
 
 .allcontacts::-webkit-scrollbar {
     display: none;
@@ -384,24 +400,6 @@ position: relative; */
 }
 
 
-
-
-
-
-
-/* 
-margin-top: 20px;
-padding: 0;
-width: 90%;
-margin-left: -150px;
-position: fixed;
-left: 2rem;
-height: 100vh;
-overflow: hidden;
-    overflow-x: hidden;
-overflow-x: scroll; 
-padding:2rem
-*/
 .Searchbar {
   margin-right: 1rem;
     flex-basis: 60%;
@@ -446,7 +444,6 @@ cursor: pointer;
 
 .menu-bar :nth-child(2) {
 color:#0eabf3;
-/* padding-bottom: 3rem; */
 }
 
 
@@ -562,6 +559,20 @@ padding: 0 0.5rem;
     padding: 2px;
     display: flex;
     align-items: center;
+}
+
+.displaylist span,.displayEditlist span{
+width: 5rem;
+margin-left: -10px;
+margin-right: 50px;
+
+}
+
+
+.displaylist:hover .searchimgframe {
+    width: 10rem;
+    height: 50px;
+    display: block;
 }
 
 .mobile-searchbar .displaylist span{
@@ -721,15 +732,11 @@ width: 100%;
 
 .searchimgframe {
     display: block;
-    width: 10rem;
+    width: 7rem;
     height: 50px;
 }
 
-.displaylist:hover .searchimgframe {
-    width: 10rem;
-    height: 50px;
-    display: block;
-}
+
 
 .imgframe {
     display: block;
@@ -761,14 +768,6 @@ width: 100%;
     display: block;
 }
 
-
-/* 
-.allcontacts li:hover.imgframe,.searchlist li:hover{
-width: 80px;
-height: 50px;
-display: block;
-
-} */
 
 .recentlyadded li:hover .thumbnail,
 .searchlist li:hover .thumbnail,
